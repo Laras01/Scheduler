@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:background="#ffffffff"
+    android:orientation="vertical" >
+    
+    <com.krl109.scheduler.setting.SlideMenu
+        android:id="@+id/slideMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+        
+        <Button 
+            android:id="@+id/BtnSlide" 
+            android:drawableLeft="@drawable/setting"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:text="Setting" 
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/BtnSlide" />
+
+        <Button
+            android:id="@+id/btn_notif_sound"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/TextView03"
+            android:text="Notification Sound"
+            android:textSize="14sp" />
+	
+        <TextView
+            android:id="@+id/TextView03"
+            android:layout_width="fill_parent"
+            android:layout_height="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/textView1" />   
+        
+    </RelativeLayout>

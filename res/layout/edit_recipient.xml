@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:text="Edit Recipient"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="wrap_content"
+        android:layout_height="2dip"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_below="@+id/textView1"
+        android:background="#00bfff"
+        android:paddingBottom="5dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="fill_parent"
+        android:layout_height="15dp"
+        android:layout_alignLeft="@+id/recipient"
+        android:layout_below="@+id/recipient" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_alignTop="@+id/btn_save"
+        android:text="Cancel" />
+
+    <Button
+        android:id="@+id/btn_save"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignParentBottom="true"
+        android:text="Save" />
+
+    <View
+        android:id="@+id/View01"
+        android:layout_width="wrap_content"
+        android:layout_height="2dip"
+        android:layout_alignLeft="@+id/btn_save"
+        android:layout_alignTop="@+id/btn_cancel"
+        
+        android:background="#48D1CC"
+        android:paddingBottom="5dp" />
+
+    <TextView
+        android:id="@+id/TextView02"
+        android:layout_width="fill_parent"
+        android:layout_height="15dp"
+        android:layout_alignLeft="@+id/view1"
+        android:layout_below="@+id/view1" />
+
+    <!-- <ImageButton
+        android:id="@+id/btn_contact"
+        style="?android:attr/buttonStyleSmall"
+        android:background="#87CEEB"
+        android:src="@drawable/contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/TextView02"
+        android:layout_below="@+id/TextView02" /> -->
+    
+    <ImageButton
+        android:id="@+id/btn_contact"
+        style="?android:attr/buttonStyleSmall"
+        android:src="@drawable/contact"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignRight="@+id/TextView02"
+        android:layout_below="@+id/TextView02"
+        android:background="#87CEEB" />
+
+    <EditText
+        android:id="@+id/recipient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btn_contact"
+        android:layout_alignLeft="@+id/TextView02"
+        android:layout_toLeftOf="@+id/btn_contact"
+        android:ems="10"
+        android:hint="Recipient(s)"
+        android:inputType="textMultiLine"
+        android:textSize="14sp" >
+
+        <requestFocus />
+    </EditText>
+
+</RelativeLayout>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:background="#ffffffff"
+    android:orientation="vertical" >
+    
+    <com.krl109.scheduler.setting.SlideMenu
+        android:id="@+id/slideMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+        
+        <Button 
+            android:id="@+id/BtnSlide" 
+            android:drawableLeft="@drawable/setting"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:text="Setting" 
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/BtnSlide" />
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:layout_alignParentLeft="true"
+            android:background="#48D1CC"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_below="@+id/toggle_alert" />
+        
+        <TextView
+            android:id="@+id/TextView04"
+            android:layout_width="fill_parent"
+            android:layout_height="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/btn_alert_snooze" />
+
+        <Button
+            android:id="@+id/btn_alert_sound"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/TextView04"
+            android:text="Alert Sound" 
+            android:textSize="14sp"/>
+	
+        <TextView
+            android:id="@+id/TextView03"
+            android:layout_width="fill_parent"
+            android:layout_height="15dp"
+            android:layout_alignBaseline="@+id/TextView01"
+            android:layout_alignBottom="@+id/TextView01"
+            android:layout_alignParentLeft="true" />
+        
+        <Button
+            android:id="@+id/btn_alert_snooze"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/TextView03"
+            android:layout_marginTop="18dp"
+            android:text="Alert Snooze" 
+            android:textSize="14sp"/>
+
+        <ToggleButton
+            android:id="@+id/toggle_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:text="Switch Alert" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView1"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="Switch Alert" />   
+        
+    </RelativeLayout>

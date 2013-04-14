@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:text="New Schedule"
+        android:paddingLeft="10dp"
+        android:paddingTop="15dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <View
+        android:id="@+id/view1"
+        android:layout_width="wrap_content"
+        android:layout_height="2dip"
+        android:layout_alignLeft="@+id/textView1"
+        android:background="#00BFFF"
+        android:paddingBottom="5dp" />
+    
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="fill_parent"
+        android:layout_height="8dp"
+        android:layout_below="@+id/view1"
+        android:text="" />
+    
+	
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+            
+            <Button
+		        android:id="@+id/btn_cancel"
+		        style="?android:attr/buttonStyleSmall"
+		        android:layout_width="100dp"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentBottom="true"
+		        android:text="Cancel" />
+            
+            <Button
+		        android:id="@+id/btn_cancel"
+		        style="?android:attr/buttonStyleSmall"
+		        android:layout_width="100dp"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentBottom="true"
+		        android:text="Cancel" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+            
+            <Button
+		        android:id="@+id/btn_cancel"
+		        style="?android:attr/buttonStyleSmall"
+		        android:layout_width="100dp"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentBottom="true"
+		        android:text="Cancel" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>-->
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" 
+            android:orientation="horizontal"/>
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>
+    </LinearLayout>
+</TabHost>

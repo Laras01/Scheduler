@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SMS Scheduler</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string-array name="history">
+		<item>Rizal Zulfikar</item>
+		<item>Laras Ervintyana</item>
+		<item>Keukeu Anggarani</item>
+		<item>KoTA 109</item>
+	</string-array>
+	
+     <string name="image">Thumbnail</string>
+    <string name="alert">Alert</string>
+    <string name="notification">Notification</string>
+    <string name="menubutton">Setting</string>
+    
+</resources>

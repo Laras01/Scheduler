@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+	
+	<item android:id="@+id/resend"
+          android:title="Resend Schedule" /> 
+          
+	<item android:id="@+id/forward"
+          android:title="Forward Schedule" />
+    
+    <item android:id="@+id/removed"
+          android:title="Removed Schedule" />    
+
+</menu>
