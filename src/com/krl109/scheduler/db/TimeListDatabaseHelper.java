@@ -56,13 +56,24 @@ public class TimeListDatabaseHelper {
 		return database.rawQuery("select * from " + TABLE_NAME, null);
 	}
 	
-	Schedule getOneSchedule(long timemillist){		
+	Schedule getOneSchedule(long timemillis){		
 		database = openHelper.getReadableDatabase();
-		Cursor cursor = database.rawQuery("select * from " + TABLE_NAME + " where timemillist='" + timemillist +"'", null);
+		Cursor cursor = database.rawQuery("select * from " + TABLE_NAME + " where timemillist='" + timemillis +"'", null);
 		if(cursor != null)
 			cursor.moveToFirst();
 		Schedule schedule = new Schedule(cursor.getLong(1), cursor.getString(2), cursor.getString(3));
 		Log.e("TimeListDatabaseHelper", cursor.getString(2));
 		return schedule;
+	}
+	
+	public boolean checkTimemillis(long timemillis){
+		database = openHelper.getReadableDatabase();
+		Cursor cursor = database.rawQuery("select * from " + TABLE_NAME + " where timemillist='" + timemillis +"'", null);
+		if (cursor == null){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 }
