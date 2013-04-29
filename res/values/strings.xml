@@ -16,4 +16,12 @@
     <string name="notification">Notification</string>
     <string name="menubutton">Setting</string>
     
+    <string name="radio_age">Age</string>
+    <string name="radio_date">Date</string>
+    <string name="radio_month">Month</string>
+    <string name="radio_year">Year</string>
+    
+    <string name="button_ok">OK</string>
+    <string name="button_save">Save</string>
+	<string name="button_cancel">Cancel</string>
 </resources>
