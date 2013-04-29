@@ -4,6 +4,8 @@ public class Frequency {
 	String frequency;
 	int frequencyTimes;
 	
+	public Frequency(){};
+	
 	/*public int frequencyTimes(){
 		if (frequency == "hourly")
 			return frequencyTimes = 1;
@@ -47,6 +49,15 @@ public class Frequency {
 		}
 		else if (frequency.contains("4")){
 			frequencyTimes = 4;
+		}
+		else if (frequency.contains("6")){
+			frequencyTimes = 6;
+		}
+		else if (frequency.contains("8")){
+			frequencyTimes = 8;
+		}
+		else{
+			frequencyTimes = 1;
 		}
 		return frequencyTimes;
 	}

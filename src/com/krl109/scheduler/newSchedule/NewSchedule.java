@@ -41,6 +41,7 @@ public class NewSchedule extends Activity implements OnClickListener
 	TimePicker time_schedule;
 	String[] data;
 	boolean check;
+	Frequency freqtimes = new Frequency();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -58,6 +59,7 @@ public class NewSchedule extends Activity implements OnClickListener
 		data = new String[8];
 		
 		//menampilkan dropdown pilihan frekuensi pengiriman
+		//show dropdown frequency options of send
 		frequency = (Spinner) findViewById(R.id.frequency);
 		ArrayAdapter<String> list = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, freq);
 		list.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -90,32 +92,36 @@ public class NewSchedule extends Activity implements OnClickListener
 				data[0] = datetime.getText().toString(); //datetime
 				data[1] = recipient.getText().toString(); //recipient
 				data[2] = content.getText().toString(); //message
-				data[3] = freq[frequency.getSelectedItemPosition()].toString(); //frequency
+				data[3] = freq[frequency.getSelectedItemPosition()].toString(); //frequency -> once | hourly | etc
 				data[4] = freqTime.getText().toString(); //remaining
 				data[5] = "scheduled"; //status
-				data[6] = "2"; //freqtimes
+				data[6] = "2";//freqtimes.frequencyTimes(frequency); //freqtimes // yang pake formula (belum dibuat)
 				
 				//check the timemillis before save to database
 				//1. get whether true of false timemillis in database via TimeListDatabaseHelper
 				//2. if false then addTimemillis in method NewSchedule
 				//3. repetition until there is no same timemillis in database
-				check = databaseHelper.checkTimemillis(timemillis);
-				while(check == false){
+				check = databaseHelper.checkTimemillis(2);
+				/*while(check == false){
 					addTimemillis(timemillis);
 					check = databaseHelper.checkTimemillis(timemillis);
-				}
-				
-				databaseHelper.saveTimeRecord(timemillis, data);
-				/*for(int i = 0;i<7;i++)
-				{
-				Toast.makeText(getApplicationContext(), data[i], Toast.LENGTH_SHORT).show();
 				}*/
 				
-				//Toast.makeText(getApplicationContext(), " TimeMilis" + dateTime, Toast.LENGTH_SHORT).show();
+				if (check == false){
+					Toast t1 = Toast.makeText(NewSchedule.this, "false " + timemillis, Toast.LENGTH_LONG);
+					t1.show();
+				}
+				else{
+					Toast t1 = Toast.makeText(NewSchedule.this, "true " + timemillis, Toast.LENGTH_LONG);
+					t1.show();
+				}
+				
+				//databaseHelper.saveTimeRecord(timemillis, data);
+				/*
 				
 				Toast.makeText(getApplicationContext(), "Schedule saved", Toast.LENGTH_SHORT).show();
 				Intent create_schedule = new Intent(NewSchedule.this, Schedule.class);
-		    	startActivity(create_schedule);
+		    	startActivity(create_schedule);*/
 				
 			}
 		});

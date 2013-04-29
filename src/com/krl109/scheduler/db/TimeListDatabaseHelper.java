@@ -69,11 +69,19 @@ public class TimeListDatabaseHelper {
 	public boolean checkTimemillis(long timemillis){
 		database = openHelper.getReadableDatabase();
 		Cursor cursor = database.rawQuery("select * from " + TABLE_NAME + " where timemillist='" + timemillis +"'", null);
-		if (cursor == null){
+		/*if (cursor == null){
 			return true;
 		}
 		else{
 			return false;
+		}*/
+		if(cursor != null){
+			cursor.moveToFirst();
+			Log.e("TimeListDatabaseHelper", cursor.getString(2));
+			return false;
+		}
+		else{
+			return true;
 		}
 	}
 }
