@@ -1,9 +1,5 @@
 package com.krl109.scheduler.template;
 
-import com.krl109.scheduler.R;
-import com.krl109.scheduler.R.id;
-import com.krl109.scheduler.R.layout;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.krl109.scheduler.R;
+
 public class Template extends Activity 
 {
 	//ArrayList<String> template = new ArrayList<String>();
-	ArrayAdapter adapter = null;
+	ArrayAdapter<String> adapter = null;
 	String[] template = {"temp1", "temp2", "temp3", "temp4", "temp5"};
 	Button add;
 	

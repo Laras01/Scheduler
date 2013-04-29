@@ -40,6 +40,7 @@ public class NewSchedule extends Activity implements OnClickListener
 	DatePicker date_schedule;
 	TimePicker time_schedule;
 	String[] data;
+	boolean check;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -93,6 +94,16 @@ public class NewSchedule extends Activity implements OnClickListener
 				data[4] = freqTime.getText().toString(); //remaining
 				data[5] = "scheduled"; //status
 				data[6] = "2"; //freqtimes
+				
+				//check the timemillis before save to database
+				//1. get whether true of false timemillis in database via TimeListDatabaseHelper
+				//2. if false then addTimemillis in method NewSchedule
+				//3. repetition until there is no same timemillis in database
+				check = databaseHelper.checkTimemillis(timemillis);
+				while(check == false){
+					addTimemillis(timemillis);
+					check = databaseHelper.checkTimemillis(timemillis);
+				}
 				
 				databaseHelper.saveTimeRecord(timemillis, data);
 				/*for(int i = 0;i<7;i++)
@@ -195,5 +206,12 @@ public class NewSchedule extends Activity implements OnClickListener
 	{
 		Intent contactPicker = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
 		startActivityForResult(contactPicker, CONTACT_PICKER_RESULT);
+	}
+	
+	//check to database whether get the same timemillis from database or not
+	//if same, then timemillis will add one millisecond
+	public long addTimemillis(long timemillis){
+		timemillis = timemillis + 1;
+		return timemillis;
 	}
 }
