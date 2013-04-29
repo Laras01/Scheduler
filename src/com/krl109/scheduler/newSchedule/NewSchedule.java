@@ -29,7 +29,7 @@ public class NewSchedule extends Activity implements OnClickListener
 {
 	protected static final int CONTACT_PICKER_RESULT = 1001;
 	private TimeListDatabaseHelper databaseHelper;
-	private long dateTime;
+	private long timemillis;
 	EditText recipient, datetime, content, freqTime;
 	Button btn_save, btn_cancel;
 	ImageButton btn_contact, btn_datetime, btn_template; 
@@ -86,15 +86,15 @@ public class NewSchedule extends Activity implements OnClickListener
 				Toast t = Toast.makeText(NewSchedule.this, toastMessage, Toast.LENGTH_LONG);
 				t.show();
 				
-				data[0] = datetime.getText().toString(); 
-				data[1] = recipient.getText().toString();
-				data[2] = content.getText().toString();
-				data[3] = freq[frequency.getSelectedItemPosition()].toString();
-				data[4] = freqTime.getText().toString();
-				data[5] = "scheduled";
-				data[6] = "2";
+				data[0] = datetime.getText().toString(); //datetime
+				data[1] = recipient.getText().toString(); //recipient
+				data[2] = content.getText().toString(); //message
+				data[3] = freq[frequency.getSelectedItemPosition()].toString(); //frequency
+				data[4] = freqTime.getText().toString(); //remaining
+				data[5] = "scheduled"; //status
+				data[6] = "2"; //freqtimes
 				
-				databaseHelper.saveTimeRecord(dateTime, data);
+				databaseHelper.saveTimeRecord(timemillis, data);
 				/*for(int i = 0;i<7;i++)
 				{
 				Toast.makeText(getApplicationContext(), data[i], Toast.LENGTH_SHORT).show();
@@ -162,7 +162,7 @@ public class NewSchedule extends Activity implements OnClickListener
 				Calendar calendar = Calendar.getInstance();
 				calendar.set(date_schedule.getYear(), date_schedule.getMonth(), date_schedule.getDayOfMonth(), 
 						time_schedule.getCurrentHour(), time_schedule.getCurrentMinute());
-				dateTime = calendar.getTimeInMillis();
+				timemillis = calendar.getTimeInMillis();
 				//mengambil tanggal dari datepicker
 				int day = date_schedule.getDayOfMonth();
 				int month = date_schedule.getMonth() + 1;
