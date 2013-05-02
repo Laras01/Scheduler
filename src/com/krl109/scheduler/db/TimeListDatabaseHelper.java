@@ -66,22 +66,24 @@ public class TimeListDatabaseHelper {
 		return schedule;
 	}
 	
-	public boolean checkTimemillis(long timemillis){
+	//this method is for
+	//1. check whether there is same timemillis in database or not
+	//2. if same, then timemillis will add one millisecond
+	//3. if not, then timemillis return with the same value (value at the first come)
+	public long addTimemillis(long timemillis){
 		database = openHelper.getReadableDatabase();
 		Cursor cursor = database.rawQuery("select * from " + TABLE_NAME + " where timemillist='" + timemillis +"'", null);
-		/*if (cursor == null){
-			return true;
-		}
-		else{
-			return false;
-		}*/
+		
 		if(cursor != null){
-			cursor.moveToFirst();
-			Log.e("TimeListDatabaseHelper", cursor.getString(2));
-			return false;
-		}
-		else{
-			return true;
-		}
+			while(cursor.moveToNext()){
+				long millisecond = cursor.getLong(cursor.getColumnIndex("timemillist"));
+				//checking process here
+				if(millisecond == timemillis){
+					timemillis = timemillis + 1;
+				}
+			}
+		}		
+		
+		return timemillis;
 	}
 }

@@ -19,6 +19,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.krl109.scheduler.R;
+import com.krl109.scheduler.db.AlarmManageHelper;
 import com.krl109.scheduler.db.TimeListDatabaseHelper;
 import com.krl109.scheduler.main.MainActivity;
 import com.krl109.scheduler.tabLayout.ListScheduleView;
@@ -86,8 +87,8 @@ public class NewSchedule extends Activity implements OnClickListener
 						"Frequency 	   : " + freq[frequency.getSelectedItemPosition()] + "\n" +
 						"Content       : " + content.getText().toString();
 			
-				Toast t = Toast.makeText(NewSchedule.this, toastMessage, Toast.LENGTH_LONG);
-				t.show();
+				/*Toast t = Toast.makeText(NewSchedule.this, toastMessage, Toast.LENGTH_LONG);
+				t.show();*/
 				
 				data[0] = datetime.getText().toString(); //datetime
 				data[1] = recipient.getText().toString(); //recipient
@@ -97,32 +98,16 @@ public class NewSchedule extends Activity implements OnClickListener
 				data[5] = "scheduled"; //status
 				data[6] = "2";//freqtimes.frequencyTimes(frequency); //freqtimes // yang pake formula (belum dibuat)
 				
-				//check the timemillis before save to database
-				//1. get whether true of false timemillis in database via TimeListDatabaseHelper
-				//2. if false then addTimemillis in method NewSchedule
-				//3. repetition until there is no same timemillis in database
-				check = databaseHelper.checkTimemillis(2);
-				/*while(check == false){
-					addTimemillis(timemillis);
-					check = databaseHelper.checkTimemillis(timemillis);
-				}*/
-				
-				if (check == false){
-					Toast t1 = Toast.makeText(NewSchedule.this, "false " + timemillis, Toast.LENGTH_LONG);
-					t1.show();
-				}
-				else{
-					Toast t1 = Toast.makeText(NewSchedule.this, "true " + timemillis, Toast.LENGTH_LONG);
-					t1.show();
-				}
-				
-				//databaseHelper.saveTimeRecord(timemillis, data);
-				/*
+				//check the timemillis before save to database via TimeListDatabaseHelper
+				timemillis = databaseHelper.addTimemillis(timemillis);
 				
 				Toast.makeText(getApplicationContext(), "Schedule saved", Toast.LENGTH_SHORT).show();
-				Intent create_schedule = new Intent(NewSchedule.this, Schedule.class);
-		    	startActivity(create_schedule);*/
+				Intent create_schedule = new Intent(NewSchedule.this, AlarmManageHelper.class);
+				create_schedule.putExtra("timemillist", timemillis);
+		    	startActivity(create_schedule);
 				
+		    	//save to database via TimeListDatabaseHelper
+				databaseHelper.saveTimeRecord(timemillis, data);
 			}
 		});
 		
@@ -177,6 +162,8 @@ public class NewSchedule extends Activity implements OnClickListener
 			public void onClick(View v) 
 			{
 				Calendar calendar = Calendar.getInstance();
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.MILLISECOND, 0);
 				calendar.set(date_schedule.getYear(), date_schedule.getMonth(), date_schedule.getDayOfMonth(), 
 						time_schedule.getCurrentHour(), time_schedule.getCurrentMinute());
 				timemillis = calendar.getTimeInMillis();
@@ -212,12 +199,5 @@ public class NewSchedule extends Activity implements OnClickListener
 	{
 		Intent contactPicker = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
 		startActivityForResult(contactPicker, CONTACT_PICKER_RESULT);
-	}
-	
-	//check to database whether get the same timemillis from database or not
-	//if same, then timemillis will add one millisecond
-	public long addTimemillis(long timemillis){
-		timemillis = timemillis + 1;
-		return timemillis;
 	}
 }
