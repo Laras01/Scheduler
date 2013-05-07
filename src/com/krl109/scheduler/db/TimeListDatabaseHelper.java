@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 public class TimeListDatabaseHelper {
+	private static final int DATABASE_VERSION = 1;
+	private static final String DATABASE_NAME = "scheduler-krl3.db";
 	private static final String TABLE_SCHEDULE = "schedule";
 
 	public static final String SCHEDULE_COLUMN_ID = "id";

@@ -57,8 +57,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 class DatabaseOpenHelper extends SQLiteOpenHelper {
 
-	private static final int DATABASE_VERSION = 3;
-	private static final String DATABASE_NAME = "scheduler-krl3.db";
+	private static final int DATABASE_VERSION = 1;
+	private static final String DATABASE_NAME = "scheduler-krl4.db";
 	private static final String TABLE_SCHEDULE = "schedule";
 	private static final String TABLE_CONTACT_NUMBER = "contact";
 	private static final String TABLE_RECIPIENT = "recipient";
@@ -122,7 +122,7 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase database, int oldVersion,
 			int newVersion) {
 		// handle database schema upgrades
-		database.execSQL("DROP TABLE IF EXISTS " + TABLE_SCHEDULE);
+		database.execSQL("DROP TABLE IF EXISTS " + DATABASE_NAME);
 		onCreate(database);
 	}
 
