@@ -58,11 +58,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 class DatabaseOpenHelper extends SQLiteOpenHelper {
 
 	private static final int DATABASE_VERSION = 1;
-	private static final String DATABASE_NAME = "scheduler-krl4.db";
+	private static final String DATABASE_NAME = "scheduler-krl5.db";
 	private static final String TABLE_SCHEDULE = "schedule";
 	private static final String TABLE_CONTACT_NUMBER = "contact";
 	private static final String TABLE_RECIPIENT = "recipient";
 	private static final String TABLE_TIME = "time";
+	private static final String TABLE_TEMPLATE = "template";
+	private static final String TABLE_COUNT = "count";
+	private static final String TABLE_CATEGORY = "category";
 
 	public static final String SCHEDULE_COLUMN_ID = "schedule_id";
 	public static final String SCHEDULE_COLUMN_DATETIME = "schedule_datetime";
@@ -83,6 +86,21 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 	public static final String TIME_COLUMN_TIMEMILLIS = "time_timemillis";
 	public static final String TIME_COLUMN_SCHEDULE_ID = "time_schedule_id";
 	public static final String TIME_COLUMN_STATUS = "time_status";
+	
+	public static final String TEMPLATE_COLUMN_ID = "template_id";
+	public static final String TEMPLATE_COLUMN_COUNT_ID = "template_count_id";
+	public static final String TEMPLATE_COLUMN_CATEGORY_ID = "template_category_id";
+	public static final String TEMPLATE_COLUMN_SCHEDULE_ID = "template_schedule_id";
+	public static final String TEMPLATE_COLUMN_MESSAGE = "template_message";
+	public static final String TEMPLATE_COLUMN_NAME = "template_name";
+	public static final String TEMPLATE_COLUMN_CATEGORY = "template_category";
+	
+	public static final String COUNT_COLUMN_ID = "count_id";
+	public static final String COUNT_COLUMN_TEMPLATE_ID = "count_template_id";
+	public static final String COUNT_COLUMN_VARIABLE = "count_variable";
+	
+	public static final String CATEGORY_COLUMN_ID = "category_id";
+	public static final String CATEGORY_COLUMN_TYPE = "category_type";
 	
 	public DatabaseOpenHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -116,6 +134,28 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 				   + "FOREIGN KEY (" + RECIPIENT_COLUMN_SCHEDULE_ID +") REFERENCES " + TABLE_SCHEDULE + " (" + SCHEDULE_COLUMN_ID + "), "
 				   + "FOREIGN KEY (" + RECIPIENT_COLUMN_TIMEMILLIS +") REFERENCES " + TABLE_TIME + " (" + TIME_COLUMN_TIMEMILLIS + "), "
 				   + "FOREIGN KEY (" + RECIPIENT_COLUMN_NUMBER +") REFERENCES " + TABLE_CONTACT_NUMBER + " (" + CONTACT_COLUMN_NUMBER + "))");
+		
+		database.execSQL("CREATE TABLE " + TABLE_TEMPLATE + " (" 
+				   + TEMPLATE_COLUMN_ID + " INTEGER PRIMARY KEY, " 
+				   + TEMPLATE_COLUMN_COUNT_ID + " INTEGER, " 
+				   + TEMPLATE_COLUMN_CATEGORY_ID + " INTEGER, " 
+				   + TEMPLATE_COLUMN_SCHEDULE_ID + " INTEGER, " 
+				   + TEMPLATE_COLUMN_MESSAGE + " STRING, " 
+				   + TEMPLATE_COLUMN_NAME + " STRING, " 
+				   + TEMPLATE_COLUMN_CATEGORY + " STRING, " 
+				   + "FOREIGN KEY (" + TEMPLATE_COLUMN_COUNT_ID + ") REFERENCES " + TABLE_COUNT + " (" + COUNT_COLUMN_ID + "), " 
+				   + "FOREIGN KEY (" + TEMPLATE_COLUMN_CATEGORY_ID + ") REFERENCES " + TABLE_CATEGORY + " (" + CATEGORY_COLUMN_ID + "), " 
+				   + "FOREIGN KEY (" + TEMPLATE_COLUMN_SCHEDULE_ID + ") REFERENCES " + TABLE_SCHEDULE + " (" + SCHEDULE_COLUMN_ID + "))");
+		
+		database.execSQL("CREATE TABLE " + TABLE_COUNT + " (" 
+				   + COUNT_COLUMN_ID + " INTEGER PRIMARY KEY, " 
+				   + COUNT_COLUMN_TEMPLATE_ID + " INTEGER, " 
+				   + COUNT_COLUMN_VARIABLE + " INTEGER, " 
+				   + "FOREIGN KEY (" + COUNT_COLUMN_TEMPLATE_ID + ") REFERENCES " + TABLE_TEMPLATE + " (" + TEMPLATE_COLUMN_ID + "))");
+		
+		database.execSQL("CREATE TABLE " + TABLE_CATEGORY + " (" 
+				   + CATEGORY_COLUMN_ID + " INTEGER PRIMARY KEY, " 
+				   + CATEGORY_COLUMN_TYPE + " STRING)");
 	}
 
 	@Override
