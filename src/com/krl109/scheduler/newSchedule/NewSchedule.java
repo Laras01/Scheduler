@@ -43,6 +43,7 @@ public class NewSchedule extends Activity implements OnClickListener
 	String[] data;
 	boolean check;
 	Frequency freqtimes = new Frequency();
+	Schedule schedule;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -83,9 +84,9 @@ public class NewSchedule extends Activity implements OnClickListener
 			public void onClick(View v) 
 			{
 				//untuk memproses penyimpanan schedule baru
-				String toastMessage = 
+				/*String toastMessage = 
 						"Frequency 	   : " + freq[frequency.getSelectedItemPosition()] + "\n" +
-						"Content       : " + content.getText().toString();
+						"Content       : " + content.getText().toString();*/
 			
 				/*Toast t = Toast.makeText(NewSchedule.this, toastMessage, Toast.LENGTH_LONG);
 				t.show();*/
@@ -101,13 +102,17 @@ public class NewSchedule extends Activity implements OnClickListener
 				//check the timemillis before save to database via TimeListDatabaseHelper
 				timemillis = databaseHelper.addTimemillis(timemillis);
 				
-				Toast.makeText(getApplicationContext(), "Schedule saved", Toast.LENGTH_SHORT).show();
+				/*Toast.makeText(getApplicationContext(), "Schedule saved", Toast.LENGTH_SHORT).show();
 				Intent create_schedule = new Intent(NewSchedule.this, AlarmManageHelper.class);
 				create_schedule.putExtra("timemillist", timemillis);
 		    	startActivity(create_schedule);
 				
-		    	//save to database via TimeListDatabaseHelper
-				databaseHelper.saveTimeRecord(timemillis, data);
+		    	//save to database via TimeListDatabaseHelper8
+				databaseHelper.saveTimeRecord(timemillis, data);*/
+				schedule = new Schedule(timemillis, data);
+				
+				Toast t = Toast.makeText(NewSchedule.this, schedule.getDateTimeSch(), Toast.LENGTH_LONG);
+				t.show();
 			}
 		});
 		

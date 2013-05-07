@@ -7,9 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 public class TimeListDatabaseHelper {
-	private static final int DATABASE_VERSION = 1;
-	private static final String DATABASE_NAME = "scheduler-krl3.db";
-	private static final String TABLE_NAME = "schedule";
+	private static final String TABLE_SCHEDULE = "schedule";
 
 	public static final String SCHEDULE_COLUMN_ID = "id";
 	public static final String SCHEDULE_COLUMN_TIMEMILLIST = "timemillist";
@@ -42,23 +40,23 @@ public class TimeListDatabaseHelper {
 		contentValues.put(SCHEDULE_COLUMN_REMAINING, data[4]);
 		contentValues.put(SCHEDULE_COLUMN_STATUS, data[5]);
 		contentValues.put(SCHEDULE_COLUMN_FT, data[6]);
-		database.insert(TABLE_NAME, null, contentValues);
+		database.insert(TABLE_SCHEDULE, null, contentValues);
 	}
 	
 	public Cursor getAllTimeRecords(){
 		// select all data in database -> timerecords
-		return database.rawQuery("select * from " + TABLE_NAME, null);
+		return database.rawQuery("select * from " + TABLE_SCHEDULE, null);
 	}
 	
 	public Cursor getScheduleList()
 	{
 		database = openHelper.getReadableDatabase();
-		return database.rawQuery("select * from " + TABLE_NAME, null);
+		return database.rawQuery("select * from " + TABLE_SCHEDULE, null);
 	}
 	
 	Schedule getOneSchedule(long timemillis){		
 		database = openHelper.getReadableDatabase();
-		Cursor cursor = database.rawQuery("select * from " + TABLE_NAME + " where timemillist='" + timemillis +"'", null);
+		Cursor cursor = database.rawQuery("select * from " + TABLE_SCHEDULE + " where schedule_timemillis='" + timemillis +"'", null);
 		if(cursor != null)
 			cursor.moveToFirst();
 		Schedule schedule = new Schedule(cursor.getLong(1), cursor.getString(2), cursor.getString(3));
@@ -72,7 +70,7 @@ public class TimeListDatabaseHelper {
 	//3. if not, then timemillis return with the same value (value at the first come)
 	public long addTimemillis(long timemillis){
 		database = openHelper.getReadableDatabase();
-		Cursor cursor = database.rawQuery("select * from " + TABLE_NAME + " where timemillist='" + timemillis +"'", null);
+		Cursor cursor = database.rawQuery("select * from " + TABLE_SCHEDULE + " where schedule_timemillis='" + timemillis +"'", null);
 		
 		if(cursor != null){
 			while(cursor.moveToNext()){
