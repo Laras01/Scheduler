@@ -47,7 +47,7 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 	}
 
 }
-*/
+ */
 
 package com.krl109.scheduler.db;
 
@@ -74,7 +74,7 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 	public static final String SCHEDULE_COLUMN_SONG = "schedule_song";
 	public static final String SCHEDULE_COLUMN_ALERT = "schedule_alert";
 	public static final String SCHEDULE_COLUMN_TIMEMILLIS = "schedule_timemillis";
-	
+
 	public static final String CONTACT_COLUMN_NUMBER = "contact_number";
 
 	public static final String RECIPIENT_COLUMN_ID = "recipient_id";
@@ -82,11 +82,11 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 	public static final String RECIPIENT_COLUMN_TIMEMILLIS = "recipient_timemillis";
 	public static final String RECIPIENT_COLUMN_SCHEDULE_ID = "recipient_schedule_id";
 	public static final String RECIPIENT_COLUMN_STATUS = "recipient_status";
-	
+
 	public static final String TIME_COLUMN_TIMEMILLIS = "time_timemillis";
 	public static final String TIME_COLUMN_SCHEDULE_ID = "time_schedule_id";
 	public static final String TIME_COLUMN_STATUS = "time_status";
-	
+
 	public static final String TEMPLATE_COLUMN_ID = "template_id";
 	public static final String TEMPLATE_COLUMN_COUNT_ID = "template_count_id";
 	public static final String TEMPLATE_COLUMN_CATEGORY_ID = "template_category_id";
@@ -94,14 +94,14 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 	public static final String TEMPLATE_COLUMN_MESSAGE = "template_message";
 	public static final String TEMPLATE_COLUMN_NAME = "template_name";
 	public static final String TEMPLATE_COLUMN_CATEGORY = "template_category";
-	
+
 	public static final String COUNT_COLUMN_ID = "count_id";
 	public static final String COUNT_COLUMN_TEMPLATE_ID = "count_template_id";
 	public static final String COUNT_COLUMN_VARIABLE = "count_variable";
-	
+
 	public static final String CATEGORY_COLUMN_ID = "category_id";
 	public static final String CATEGORY_COLUMN_TYPE = "category_type";
-	
+
 	public DatabaseOpenHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
@@ -111,51 +111,59 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 		database.execSQL("CREATE TABLE " + TABLE_SCHEDULE + "("
 				+ SCHEDULE_COLUMN_ID + " INTEGER PRIMARY KEY, "
 				+ SCHEDULE_COLUMN_DATETIME + " STRING, "
-				+ SCHEDULE_COLUMN_MESSAGE + " STRING, " 
-				+ SCHEDULE_COLUMN_STATUS + " STRING, "
-				+ SCHEDULE_COLUMN_SONG + " STRING, "
-				+ SCHEDULE_COLUMN_ALERT + " STRING, "
+				+ SCHEDULE_COLUMN_MESSAGE + " STRING, "
+				+ SCHEDULE_COLUMN_STATUS + " STRING, " + SCHEDULE_COLUMN_SONG
+				+ " STRING, " + SCHEDULE_COLUMN_ALERT + " STRING, "
 				+ SCHEDULE_COLUMN_TIMEMILLIS + " STRING)");
-		
-		database.execSQL("CREATE TABLE " + TABLE_CONTACT_NUMBER + "(" 
+
+		database.execSQL("CREATE TABLE " + TABLE_CONTACT_NUMBER + "("
 				+ CONTACT_COLUMN_NUMBER + " STRING PRIMARY KEY)");
-		
-		database.execSQL("CREATE TABLE " + TABLE_TIME + "(" 
-				+ TIME_COLUMN_TIMEMILLIS + " STRING PRIMARY KEY, " 
-				+ TIME_COLUMN_STATUS + " STRING, " 
-				+ TIME_COLUMN_SCHEDULE_ID + " INTEGER, " 
-				+ "FOREIGN KEY ("+ TIME_COLUMN_SCHEDULE_ID +") REFERENCES "+ TABLE_SCHEDULE +" ("+ SCHEDULE_COLUMN_ID +"))");
-		
-		database.execSQL("CREATE TABLE " + TABLE_RECIPIENT + "(" + RECIPIENT_COLUMN_ID + " INTEGER PRIMARY KEY, "
-				   + RECIPIENT_COLUMN_STATUS + " STRING, "
-				   + RECIPIENT_COLUMN_SCHEDULE_ID + " INTEGER, "
-				   + RECIPIENT_COLUMN_TIMEMILLIS + " STRING, "
-				   + RECIPIENT_COLUMN_NUMBER + " STRING, "
-				   + "FOREIGN KEY (" + RECIPIENT_COLUMN_SCHEDULE_ID +") REFERENCES " + TABLE_SCHEDULE + " (" + SCHEDULE_COLUMN_ID + "), "
-				   + "FOREIGN KEY (" + RECIPIENT_COLUMN_TIMEMILLIS +") REFERENCES " + TABLE_TIME + " (" + TIME_COLUMN_TIMEMILLIS + "), "
-				   + "FOREIGN KEY (" + RECIPIENT_COLUMN_NUMBER +") REFERENCES " + TABLE_CONTACT_NUMBER + " (" + CONTACT_COLUMN_NUMBER + "))");
-		
-		database.execSQL("CREATE TABLE " + TABLE_TEMPLATE + " (" 
-				   + TEMPLATE_COLUMN_ID + " INTEGER PRIMARY KEY, " 
-				   + TEMPLATE_COLUMN_COUNT_ID + " INTEGER, " 
-				   + TEMPLATE_COLUMN_CATEGORY_ID + " INTEGER, " 
-				   + TEMPLATE_COLUMN_SCHEDULE_ID + " INTEGER, " 
-				   + TEMPLATE_COLUMN_MESSAGE + " STRING, " 
-				   + TEMPLATE_COLUMN_NAME + " STRING, " 
-				   + TEMPLATE_COLUMN_CATEGORY + " STRING, " 
-				   + "FOREIGN KEY (" + TEMPLATE_COLUMN_COUNT_ID + ") REFERENCES " + TABLE_COUNT + " (" + COUNT_COLUMN_ID + "), " 
-				   + "FOREIGN KEY (" + TEMPLATE_COLUMN_CATEGORY_ID + ") REFERENCES " + TABLE_CATEGORY + " (" + CATEGORY_COLUMN_ID + "), " 
-				   + "FOREIGN KEY (" + TEMPLATE_COLUMN_SCHEDULE_ID + ") REFERENCES " + TABLE_SCHEDULE + " (" + SCHEDULE_COLUMN_ID + "))");
-		
-		database.execSQL("CREATE TABLE " + TABLE_COUNT + " (" 
-				   + COUNT_COLUMN_ID + " INTEGER PRIMARY KEY, " 
-				   + COUNT_COLUMN_TEMPLATE_ID + " INTEGER, " 
-				   + COUNT_COLUMN_VARIABLE + " INTEGER, " 
-				   + "FOREIGN KEY (" + COUNT_COLUMN_TEMPLATE_ID + ") REFERENCES " + TABLE_TEMPLATE + " (" + TEMPLATE_COLUMN_ID + "))");
-		
-		database.execSQL("CREATE TABLE " + TABLE_CATEGORY + " (" 
-				   + CATEGORY_COLUMN_ID + " INTEGER PRIMARY KEY, " 
-				   + CATEGORY_COLUMN_TYPE + " STRING)");
+
+		database.execSQL("CREATE TABLE " + TABLE_TIME + "("
+				+ TIME_COLUMN_TIMEMILLIS + " STRING PRIMARY KEY, "
+				+ TIME_COLUMN_STATUS + " STRING, " + TIME_COLUMN_SCHEDULE_ID
+				+ " INTEGER, " + "FOREIGN KEY (" + TIME_COLUMN_SCHEDULE_ID
+				+ ") REFERENCES " + TABLE_SCHEDULE + " (" + SCHEDULE_COLUMN_ID
+				+ "))");
+
+		database.execSQL("CREATE TABLE " + TABLE_RECIPIENT + "("
+				+ RECIPIENT_COLUMN_ID + " INTEGER PRIMARY KEY, "
+				+ RECIPIENT_COLUMN_STATUS + " STRING, "
+				+ RECIPIENT_COLUMN_SCHEDULE_ID + " INTEGER, "
+				+ RECIPIENT_COLUMN_TIMEMILLIS + " STRING, "
+				+ RECIPIENT_COLUMN_NUMBER + " STRING, " + "FOREIGN KEY ("
+				+ RECIPIENT_COLUMN_SCHEDULE_ID + ") REFERENCES "
+				+ TABLE_SCHEDULE + " (" + SCHEDULE_COLUMN_ID + "), "
+				+ "FOREIGN KEY (" + RECIPIENT_COLUMN_TIMEMILLIS
+				+ ") REFERENCES " + TABLE_TIME + " (" + TIME_COLUMN_TIMEMILLIS
+				+ "), " + "FOREIGN KEY (" + RECIPIENT_COLUMN_NUMBER
+				+ ") REFERENCES " + TABLE_CONTACT_NUMBER + " ("
+				+ CONTACT_COLUMN_NUMBER + "))");
+
+		database.execSQL("CREATE TABLE " + TABLE_TEMPLATE + " ("
+				+ TEMPLATE_COLUMN_ID + " INTEGER PRIMARY KEY, "
+				+ TEMPLATE_COLUMN_COUNT_ID + " INTEGER, "
+				+ TEMPLATE_COLUMN_CATEGORY_ID + " INTEGER, "
+				+ TEMPLATE_COLUMN_SCHEDULE_ID + " INTEGER, "
+				+ TEMPLATE_COLUMN_MESSAGE + " STRING, " + TEMPLATE_COLUMN_NAME
+				+ " STRING, " + TEMPLATE_COLUMN_CATEGORY + " STRING, "
+				+ "FOREIGN KEY (" + TEMPLATE_COLUMN_COUNT_ID + ") REFERENCES "
+				+ TABLE_COUNT + " (" + COUNT_COLUMN_ID + "), "
+				+ "FOREIGN KEY (" + TEMPLATE_COLUMN_CATEGORY_ID
+				+ ") REFERENCES " + TABLE_CATEGORY + " (" + CATEGORY_COLUMN_ID
+				+ "), " + "FOREIGN KEY (" + TEMPLATE_COLUMN_SCHEDULE_ID
+				+ ") REFERENCES " + TABLE_SCHEDULE + " (" + SCHEDULE_COLUMN_ID
+				+ "))");
+
+		database.execSQL("CREATE TABLE " + TABLE_COUNT + " (" + COUNT_COLUMN_ID
+				+ " INTEGER PRIMARY KEY, " + COUNT_COLUMN_TEMPLATE_ID
+				+ " INTEGER, " + COUNT_COLUMN_VARIABLE + " INTEGER, "
+				+ "FOREIGN KEY (" + COUNT_COLUMN_TEMPLATE_ID + ") REFERENCES "
+				+ TABLE_TEMPLATE + " (" + TEMPLATE_COLUMN_ID + "))");
+
+		database.execSQL("CREATE TABLE " + TABLE_CATEGORY + " ("
+				+ CATEGORY_COLUMN_ID + " INTEGER PRIMARY KEY, "
+				+ CATEGORY_COLUMN_TYPE + " STRING)");
 	}
 
 	@Override

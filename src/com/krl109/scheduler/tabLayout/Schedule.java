@@ -7,11 +7,14 @@ public class Schedule {
 	private String recipientNumbers;
 	private String contentMessages;
 	
+	public static int scheduleId;
 	private long timemillis;
 	private String frequency;
 	private String remaining;
 	private String status;
 	private String freqtimes;
+	
+	public Schedule(){};
 	
 	public Schedule(int imageId, String dateTime, String recipientNumbers, String contentMessages) {
 		this.imageId = imageId;
@@ -101,6 +104,14 @@ public class Schedule {
 
 	public void setFreqtimes(String freqtimes) {
 		this.freqtimes = freqtimes;
+	}
+	
+	public int getScheduleId() {
+		return scheduleId;
+	}
+
+	public void setScheduleId(int scheduleId) {
+		this.scheduleId = scheduleId;
 	}
 
 	@Override

@@ -3,7 +3,9 @@ package com.krl109.scheduler.newSchedule;
 import java.util.Calendar;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
@@ -111,8 +113,28 @@ public class NewSchedule extends Activity implements OnClickListener
 				databaseHelper.saveTimeRecord(timemillis, data);*/
 				schedule = new Schedule(timemillis, data);
 				
-				Toast t = Toast.makeText(NewSchedule.this, schedule.getDateTimeSch(), Toast.LENGTH_LONG);
+				databaseHelper.saveScheduleToSchedule(schedule.getTimemillis(), data);
+				databaseHelper.saveScheduleToTime(schedule.getTimemillis());
+				databaseHelper.saveScheduleToContact(schedule.getRecipientNumbers());
+				databaseHelper.saveScheduleToRecipient(schedule);
+				
+				Intent intent = new Intent(NewSchedule.this, AlarmManageHelper.class);
+				intent.putExtra("timemillis", timemillis);
+				PendingIntent pending = PendingIntent.getActivity(NewSchedule.this, (int) timemillis, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+				AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+				alarm.set(AlarmManager.RTC_WAKEUP, timemillis, pending);
+				Toast t = Toast.makeText(NewSchedule.this, "" + timemillis, Toast.LENGTH_LONG);
 				t.show();
+				
+				/*Intent intent1 = new Intent(AlarmManageHelper.this, SMSActivity.class);
+				intent1.putExtra("phoneNumber", schedule.recipient);
+				intent1.putExtra("message", schedule.message);
+				PendingIntent pending = PendingIntent.getActivity(AlarmManageHelper.this, (int) timemillist, intent1, PendingIntent.FLAG_CANCEL_CURRENT);
+				AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+				alarm.set(AlarmManager.RTC_WAKEUP, timemillist, pending);*/
+				
+				/*Toast t = Toast.makeText(NewSchedule.this, "" + schedule.getScheduleId(), Toast.LENGTH_LONG);
+				t.show();*/
 			}
 		});
 		

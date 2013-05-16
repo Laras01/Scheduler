@@ -15,7 +15,9 @@ import android.widget.Toast;
 public class SMSActivity extends Activity {
 //	String phoneNumberSucceed;
 //	String phoneNumberFailed;
-	
+	String phoneNumber;
+	String message;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,6 +33,29 @@ public class SMSActivity extends Activity {
 		// call function checkPhoneNumber
 		splitPhoneNumber(phoneNumber, message);
 		//startActivity(intentToNotification);
+	}
+	
+	public SMSActivity(){}
+	
+	public SMSActivity(String phoneNumber, String message){
+		this.phoneNumber = phoneNumber;
+		this.message = message;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	private void splitPhoneNumber(String phoneNumber, String message) {
