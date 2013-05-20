@@ -70,8 +70,6 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 	private static final String TABLE_CATEGORY = "category";
 
 	public static final String MESSAGE_COLUMN_ID = "message_id";
-	public static final String MESSAGE_COLUMN_SM_ID = "message_sm_id";
-	public static final String MESSAGE_COLUMN_DM_ID = "message_dm_id";
 	public static final String MESSAGE_COLUMN_MESSAGE = "message_message";
 	public static final String MESSAGE_COLUMN_TYPE = "message_type";
 	public static final String MESSAGE_COLUMN_TIMEDATE = "message_timedate";
@@ -166,18 +164,14 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase database) {
 		database.execSQL("CREATE TABLE " + TABLE_MESSAGE + " (" 
-				+ MESSAGE_COLUMN_ID + " INTEGER PRIMARY KEY, " 
-				+ MESSAGE_COLUMN_SM_ID + " INTEGER, " 
-				+ MESSAGE_COLUMN_DM_ID + " INTEGER, " 
+				+ MESSAGE_COLUMN_ID + " INTEGER PRIMARY KEY, "
 				+ MESSAGE_COLUMN_MESSAGE + " STRING, " 
 				+ MESSAGE_COLUMN_TYPE + " STRING, " 
 				+ MESSAGE_COLUMN_TIMEDATE + " STRING, " 
 				+ MESSAGE_COLUMN_STATUS + " STRING, " 
 				+ MESSAGE_COLUMN_SONG + " STRING, " 
 				+ MESSAGE_COLUMN_ALERT + " STRING, " 
-				+ MESSAGE_COLUMN_TIMEMILLIS + " STRING, " 
-				+ "FOREIGN KEY (" + MESSAGE_COLUMN_SM_ID + ") REFERENCES " + TABLE_STATIC_MESSAGE + " (" + STATICMESSAGE_COLUMN_ID + "), " 
-				+ "FOREIGN KEY (" + MESSAGE_COLUMN_DM_ID + ") REFERENCES " + TABLE_DYNAMIC_MESSAGE + " (" + DYNAMICMESSAGE_COLUMN_ID + "))");
+				+ MESSAGE_COLUMN_TIMEMILLIS + " STRING)");
 		
 		database.execSQL("CREATE TABLE " + TABLE_CONTACT_NUMBER + "("
 				+ CONTACT_COLUMN_NUMBER + " STRING PRIMARY KEY)");

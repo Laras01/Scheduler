@@ -85,8 +85,6 @@ public class TimeListDatabaseHelper {
 	
 	public void saveScheduleToSchedule(long timemilis, String[] data)
 	{
-		databaseWriteable = openHelper.getWritableDatabase();
-
 		contentValues.put(SCHEDULE_COLUMN_DATETIME, data[0]);//datetime
 		contentValues.put(SCHEDULE_COLUMN_MESSAGE, data[2]);//message
 		contentValues.put(SCHEDULE_COLUMN_STATUS, data[5]);//status
