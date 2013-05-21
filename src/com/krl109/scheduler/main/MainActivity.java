@@ -131,12 +131,12 @@ public class MainActivity extends Activity
 				}
 				else if(menu.equals("History"))
 				{
-					Intent hist = new Intent(MainActivity.this, History.class);
+					Intent hist = new Intent(MainActivity.this, Alert.class);
 			    	startActivity(hist);
 				}
 				else if(menu.equals("Setting"))
 				{
-					Intent set = new Intent(MainActivity.this, Setting.class);
+					Intent set = new Intent(MainActivity.this, SendingNotification.class);
 			    	startActivity(set);
 				}
 			}
