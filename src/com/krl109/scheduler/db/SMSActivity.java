@@ -17,7 +17,7 @@ public class SMSActivity extends Activity {
 //	String phoneNumberFailed;
 	String phoneNumber;
 	String message;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,16 +26,18 @@ public class SMSActivity extends Activity {
 		//	Intent intentToNotification = new Intent(SMSActivity.this, Notification.class);
 
 		// get phoneNumber and message from previous activity
-		Intent intent = getIntent();
+		/*Intent intent = getIntent();
 		String phoneNumber = intent.getStringExtra("phoneNumber");
-		String message = intent.getStringExtra("message");
+		String message = intent.getStringExtra("message");*/
 
 		// call function checkPhoneNumber
-		splitPhoneNumber(phoneNumber, message);
+		//splitPhoneNumber(phoneNumber, message);
 		//startActivity(intentToNotification);
+		
+		SMSManager sms = new SMSManager();
 	}
 	
-	public SMSActivity(){}
+	/*public SMSActivity(){}
 	
 	public SMSActivity(String phoneNumber, String message){
 		this.phoneNumber = phoneNumber;
@@ -56,9 +58,9 @@ public class SMSActivity extends Activity {
 
 	public void setMessage(String message) {
 		this.message = message;
-	}
+	}*/
 
-	private void splitPhoneNumber(String phoneNumber, String message) {
+	/*private void splitPhoneNumber(String phoneNumber, String message) {
 		StringTokenizer st = new StringTokenizer(phoneNumber, ";");
 		while (st.hasMoreElements()) {
 			String tempPhoneNumber = (String) st.nextElement();
@@ -66,11 +68,11 @@ public class SMSActivity extends Activity {
 			// call function sendSMS
 			sendSMS(tempPhoneNumber, message);
 		}
-	}
+	}*/
 
 	public void sendSMS(final String phoneNumber, String message) {
-		String SENT = "SMS_SENT";
-		String DELIVERED = "SMS_DELIVERED";
+		final String SENT = "SMS_SENT";
+		final String DELIVERED = "SMS_DELIVERED";
 		/*final String SMS_DELIVERED = "SMS Delivered";
 		final String SMS_NOT_DELIVERED = "SMS Not Delivered";*/
 //		final StringBuilder sb = new StringBuilder();
@@ -104,6 +106,7 @@ public class SMSActivity extends Activity {
 					break;
 				case SmsManager.RESULT_ERROR_RADIO_OFF:
 					Toast.makeText(getBaseContext(), "Radio off",
+					
 							Toast.LENGTH_SHORT).show();
 					break;
 				}

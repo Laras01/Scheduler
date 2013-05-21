@@ -52,7 +52,7 @@ public class SchedulerActivity extends Activity {
 //				alarm.setTimemillist(6546);
 				
 				// call AlarmManager
-				Intent intent = new Intent(SchedulerActivity.this, AlarmManageHelper.class);
+				Intent intent = new Intent(SchedulerActivity.this, AlarmManagerActivity.class);
 				intent.putExtra("timemillist", dateTime);
 				startActivity(intent);
 			}

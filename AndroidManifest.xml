@@ -7,6 +7,8 @@
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="15" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
 
     <application
         android:allowBackup="true"
@@ -69,6 +71,11 @@
         </activity>
         <activity android:name=".tabLayout.EditRecipient" >
         </activity>
+        
+        
+        <activity android:name=".db.AlarmManagerActivity"></activity>
+        <activity android:name=".db.SMSActivity"></activity>
+        
     </application>
 
 </manifest>

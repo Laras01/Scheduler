@@ -21,7 +21,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.krl109.scheduler.R;
-import com.krl109.scheduler.db.AlarmManageHelper;
+import com.krl109.scheduler.db.AlarmManagerActivity;
 import com.krl109.scheduler.db.TimeListDatabaseHelper;
 import com.krl109.scheduler.main.MainActivity;
 import com.krl109.scheduler.tabLayout.ListScheduleView;
@@ -60,7 +60,7 @@ public class NewSchedule extends Activity implements OnClickListener
 		content = (EditText) findViewById(R.id.content);
 		freqTime = (EditText) findViewById(R.id.stopAfter);
 		
-		data = new String[8];
+		data = new String[9];
 		
 		//menampilkan dropdown pilihan frekuensi pengiriman
 		//show dropdown frequency options of send
@@ -113,17 +113,22 @@ public class NewSchedule extends Activity implements OnClickListener
 				databaseHelper.saveTimeRecord(timemillis, data);*/
 				schedule = new Schedule(timemillis, data);
 				
-				databaseHelper.saveScheduleToSchedule(schedule.getTimemillis(), data);
+				//check the type of message, whether dynamic or static message -> contain %%y, etc
+				schedule.setMessageType(schedule.contentMessages);
+				data[7] = schedule.getType();
+				
+				databaseHelper.saveScheduletoMessage(schedule.getTimemillis(), data);
+				databaseHelper.saveScheduleToType(schedule);
 				databaseHelper.saveScheduleToTime(schedule.getTimemillis());
 				databaseHelper.saveScheduleToContact(schedule.getRecipientNumbers());
 				databaseHelper.saveScheduleToRecipient(schedule);
 				
-				Intent intent = new Intent(NewSchedule.this, AlarmManageHelper.class);
+				Intent intent = new Intent(NewSchedule.this, AlarmManagerActivity.class);
 				intent.putExtra("timemillis", timemillis);
 				PendingIntent pending = PendingIntent.getActivity(NewSchedule.this, (int) timemillis, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 				AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
 				alarm.set(AlarmManager.RTC_WAKEUP, timemillis, pending);
-				Toast t = Toast.makeText(NewSchedule.this, "" + timemillis, Toast.LENGTH_LONG);
+				Toast t = Toast.makeText(NewSchedule.this, "" + (int) timemillis, Toast.LENGTH_LONG);
 				t.show();
 				
 				/*Intent intent1 = new Intent(AlarmManageHelper.this, SMSActivity.class);

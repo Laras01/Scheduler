@@ -3,16 +3,17 @@ package com.krl109.scheduler.tabLayout;
 
 public class Schedule {
 	private int imageId;
-	private String dateTimeSch;
-	private String recipientNumbers;
-	private String contentMessages;
+	public String dateTimeSch;
+	public String recipientNumbers;
+	public String contentMessages;
 	
 	public static int scheduleId;
-	private long timemillis;
-	private String frequency;
-	private String remaining;
-	private String status;
-	private String freqtimes;
+	public long timemillis;
+	public String frequency;
+	public String remaining;
+	public String status;
+	public String freqtimes;
+	public String type;
 	
 	public Schedule(){};
 	
@@ -112,6 +113,20 @@ public class Schedule {
 
 	public void setScheduleId(int scheduleId) {
 		this.scheduleId = scheduleId;
+	}
+	
+	public void setMessageType(String message){
+		
+		if(message.contains("%%")){
+			this.type = "dynamic";
+		}
+		else{
+			this.type = "static";
+		}
+	}
+
+	public String getType() {
+		return type;
 	}
 
 	@Override
