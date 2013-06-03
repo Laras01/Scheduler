@@ -75,6 +75,12 @@
         
         <activity android:name=".db.AlarmManagerActivity"></activity>
         <activity android:name=".db.SMSActivity"></activity>
+		
+		<activity android:name="com.krl109.scheduler.notification.SendingNotification"></activity>
+        <activity android:name="com.krl109.scheduler.notification.ReportNotification"></activity>
+        
+        <activity android:name="com.krl109.scheduler.alert.Alert"></activity>
+        <activity android:name="com.krl109.scheduler.alert.DetailSchedule"></activity>
         
     </application>
 
