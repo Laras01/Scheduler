@@ -8,33 +8,51 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.widget.Toast;
 
 public class SMSActivity extends Activity {
 //	String phoneNumberSucceed;
 //	String phoneNumberFailed;
+	private TimeListDatabaseHelper databaseHelper = new TimeListDatabaseHelper(this);
 	String phoneNumber;
 	String message;
+	SMSManager sms;
 	
+	
+	Schedule schedule;
+	long timemillis;
+	Cursor cursorRecipients;
+
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.main);
 		
-		//	Intent intentToNotification = new Intent(SMSActivity.this, Notification.class);
-
-		// get phoneNumber and message from previous activity
-		/*Intent intent = getIntent();
-		String phoneNumber = intent.getStringExtra("phoneNumber");
-		String message = intent.getStringExtra("message");*/
-
-		// call function checkPhoneNumber
-		//splitPhoneNumber(phoneNumber, message);
-		//startActivity(intentToNotification);
+		//databaseHelper = new TimeListDatabaseHelper(this);
 		
-		SMSManager sms = new SMSManager();
+		Intent intent = getIntent();
+		timemillis = intent.getLongExtra("timemillis", 0);
+		message = databaseHelper.getMessageFromMessage(timemillis);
+		cursorRecipients = databaseHelper.getRecipientsFromRecipient(timemillis);
+		
+		//Toast.makeText(getApplicationContext(), "Timemillist = " + message, Toast.LENGTH_SHORT).show();
+		
+		while(cursorRecipients.moveToNext()){
+			
+			Toast.makeText(getApplicationContext(), "Recipient = " + cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")) + "  Message = " + message, Toast.LENGTH_SHORT).show();
+			sms = new SMSManager(cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")), message);
+			sms = new SMSManager(SMSActivity.this);
+			/*sms = new SMSActivity(cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")), message);
+			sms.sendSMS(sms.getPhoneNumber(), sms.getMessage());*/
+			//sms.sendSMS(cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")), message);
+			//Toast.makeText(getApplicationContext(), "Recipient = " + cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")) + "  Message = " + message, Toast.LENGTH_SHORT).show();
+		}
+		
+		Log.e("SMSActivity", "");
 	}
 	
 	/*public SMSActivity(){}
@@ -70,7 +88,7 @@ public class SMSActivity extends Activity {
 		}
 	}*/
 
-	public void sendSMS(final String phoneNumber, String message) {
+	public void sendSMS(String phoneNumber, String message) {
 		final String SENT = "SMS_SENT";
 		final String DELIVERED = "SMS_DELIVERED";
 		/*final String SMS_DELIVERED = "SMS Delivered";

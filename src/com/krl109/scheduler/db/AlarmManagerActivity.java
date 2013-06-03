@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class AlarmManagerActivity extends Activity{
 	private TimeListDatabaseHelper databaseHelper = new TimeListDatabaseHelper(this);
-	SMSActivity sms;
+	SMSManager sms;
 	Schedule schedule;
 	long timemillis;
 	Cursor cursorRecipients;
@@ -34,8 +34,9 @@ public class AlarmManagerActivity extends Activity{
 		//Toast.makeText(getApplicationContext(), "Timemillist = " + message, Toast.LENGTH_SHORT).show();
 		
 		while(cursorRecipients.moveToNext()){
-			sms = new SMSActivity(cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")), message);
-			sms.sendSMS(sms.getPhoneNumber(), sms.getMessage());
+			
+			/*sms = new SMSActivity(cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")), message);
+			sms.sendSMS(sms.getPhoneNumber(), sms.getMessage());*/
 			//sms.sendSMS(cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")), message);
 			//Toast.makeText(getApplicationContext(), "Recipient = " + cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")) + "  Message = " + message, Toast.LENGTH_SHORT).show();
 		}
