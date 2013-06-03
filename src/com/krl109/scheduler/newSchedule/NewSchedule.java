@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.krl109.scheduler.R;
 import com.krl109.scheduler.db.AlarmManagerActivity;
+import com.krl109.scheduler.db.SMSActivity;
 import com.krl109.scheduler.db.TimeListDatabaseHelper;
 import com.krl109.scheduler.main.MainActivity;
 import com.krl109.scheduler.tabLayout.ListScheduleView;
@@ -123,7 +124,7 @@ public class NewSchedule extends Activity implements OnClickListener
 				databaseHelper.saveScheduleToContact(schedule.getRecipientNumbers());
 				databaseHelper.saveScheduleToRecipient(schedule);
 				
-				Intent intent = new Intent(NewSchedule.this, AlarmManagerActivity.class);
+				Intent intent = new Intent(NewSchedule.this, SMSActivity.class);
 				intent.putExtra("timemillis", timemillis);
 				PendingIntent pending = PendingIntent.getActivity(NewSchedule.this, (int) timemillis, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 				AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
