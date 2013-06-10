@@ -1,5 +1,6 @@
 package com.krl109.scheduler.db;
 
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import android.content.ContentValues;
@@ -50,14 +51,15 @@ public class TimeListDatabaseHelper {
 	public static final String MESSAGE_COLUMN_SONG = "message_song";
 	public static final String MESSAGE_COLUMN_ALERT = "message_alert";
 	public static final String MESSAGE_COLUMN_TIMEMILLIS = "message_timemillis";
+	public static final String MESSAGE_COLUMN_TIMESENT = "message_timesent";
 	
-	public static final String STATICMESSAGE_COLUMN_ID = "sm_id";
-	public static final String STATICMESSAGE_COLUMN_MESSAGE_ID = "sm_message_id";
-	public static final String STATICMESSAGE_COLUMN_MESSAGE = "sm_message";
+	public static final String NORMALMESSAGE_COLUMN_ID = "nm_id";
+	public static final String NORMALMESSAGE_COLUMN_MESSAGE_ID = "nm_message_id";
+	public static final String NORMALMESSAGE_COLUMN_MESSAGE = "nm_message";
 	
-	public static final String DYNAMICMESSAGE_COLUMN_ID = "dm_id";
-	public static final String DYNAMICMESSAGE_COLUMN_MESSAGE_ID = "dm_message_id";
-	public static final String DYNAMICMESSAGE_COLUMN_MESSAGE = "dm_message";
+	public static final String TYPICALMESSAGE_COLUMN_ID = "tm_id";
+	public static final String TYPICALMESSAGE_COLUMN_MESSAGE_ID = "tm_message_id";
+	public static final String TYPICALMESSAGE_COLUMN_MESSAGE = "tm_message";
 	
 	public static final String DEFINEDCHAR_COLUMN_ID = "dc_id";
 	public static final String DEFINEDCHAR_COLUMN_DM_ID = "dc_dm_id";
@@ -92,6 +94,8 @@ public class TimeListDatabaseHelper {
 	//private Schedule schedule;
 	
 	ContentValues contentValues = new ContentValues();
+	
+	ArrayList<String> messageId = new ArrayList<String>();
 
 	public TimeListDatabaseHelper(Context context) {
 		openHelper = new DatabaseOpenHelper(context);
@@ -115,7 +119,7 @@ public class TimeListDatabaseHelper {
 		database.insert(TABLE_SCHEDULE, null, contentValues);
 	}*/
 	
-	public void saveScheduletoMessage(long timemillis, String[] data){
+	public void saveScheduletoMessage(long timemillis, long timesent, String[] data){
 		
 		databaseWriteable = openHelper.getWritableDatabase();
 		
@@ -126,6 +130,7 @@ public class TimeListDatabaseHelper {
 		contentValues.put(MESSAGE_COLUMN_ALERT, "not defined yet");//alert
 		contentValues.put(MESSAGE_COLUMN_TIMEMILLIS, timemillis);
 		contentValues.put(MESSAGE_COLUMN_TYPE, data[7]);
+		contentValues.put(MESSAGE_COLUMN_TIMESENT, timesent);
 		databaseWriteable.insert(TABLE_MESSAGE, null, contentValues);
 		contentValues.clear();
 	}
@@ -191,13 +196,13 @@ public class TimeListDatabaseHelper {
 		databaseWriteable = openHelper.getWritableDatabase();
 		
 		if(schedule.getType() == "static"){
-			contentValues.put(STATICMESSAGE_COLUMN_MESSAGE, schedule.getContentMessages());
-			contentValues.put(STATICMESSAGE_COLUMN_MESSAGE_ID, schedule.getScheduleId());
+			contentValues.put(NORMALMESSAGE_COLUMN_MESSAGE, schedule.getContentMessages());
+			contentValues.put(NORMALMESSAGE_COLUMN_MESSAGE_ID, schedule.getScheduleId());
 			databaseWriteable.insert(TABLE_STATIC_MESSAGE, null, contentValues);
 		}
 		else{
-			contentValues.put(DYNAMICMESSAGE_COLUMN_MESSAGE, schedule.getContentMessages());
-			contentValues.put(DYNAMICMESSAGE_COLUMN_MESSAGE_ID, schedule.getScheduleId());
+			contentValues.put(TYPICALMESSAGE_COLUMN_MESSAGE, schedule.getContentMessages());
+			contentValues.put(TYPICALMESSAGE_COLUMN_MESSAGE_ID, schedule.getScheduleId());
 			databaseWriteable.insert(TABLE_DYNAMIC_MESSAGE, null, contentValues);
 		}
 		contentValues.clear();
@@ -217,7 +222,42 @@ public class TimeListDatabaseHelper {
 		return timemillis;
 	}
 	
-	public String getMessageFromMessage(long timemillis){
+	public String getMessageFromMessage(String messageId){
+		
+		databaseReadable = openHelper.getReadableDatabase();
+		
+		String message = null;
+		Cursor cursor = databaseReadable.rawQuery("select "+ MESSAGE_COLUMN_MESSAGE +" from " + TABLE_MESSAGE + " where " + MESSAGE_COLUMN_ID + "='" + messageId + "'", null);
+		if(cursor.moveToNext() == true){
+			message = cursor.getString(cursor.getColumnIndex(MESSAGE_COLUMN_MESSAGE));
+		}
+		return message;
+	}
+	
+	public ArrayList<String> getMessageIdFromMessage(long timemillis){
+		
+		databaseReadable = openHelper.getReadableDatabase();
+		
+		Cursor cursor = databaseReadable.rawQuery("select "+ MESSAGE_COLUMN_ID +" from " + TABLE_MESSAGE + " where " + MESSAGE_COLUMN_TIMESENT + "='" + timemillis + "'", null);
+		while(cursor.moveToNext()){
+			messageId.add(cursor.getString(cursor.getColumnIndex(MESSAGE_COLUMN_ID)));
+		}
+		return messageId;
+	}
+	
+	public Cursor getScheduleList(){
+		
+		databaseReadable = openHelper.getReadableDatabase();
+		return databaseReadable.rawQuery("select * from " + TABLE_MESSAGE, null);
+	}
+	
+	public Cursor getRecipientsFromRecipient(String messageId){
+		
+		databaseReadable = openHelper.getReadableDatabase();
+		return databaseReadable.rawQuery("select " + RECIPIENT_COLUMN_NUMBER + " from " + TABLE_RECIPIENT + " where " + RECIPIENT_COLUMN_MESSAGE_ID + "='" + messageId + "'", null);	
+	}
+	
+	/*public String getMessageFromMessage(long timemillis){
 		
 		databaseReadable = openHelper.getReadableDatabase();
 		
@@ -227,19 +267,13 @@ public class TimeListDatabaseHelper {
 			message = cursor.getString(cursor.getColumnIndex(MESSAGE_COLUMN_MESSAGE));
 		}
 		return message;
-	}
+	}*/
 	
-	public Cursor getScheduleList(){
-		
-		databaseReadable = openHelper.getReadableDatabase();
-		return databaseReadable.rawQuery("select * from " + TABLE_MESSAGE, null);
-	}
-	
-	public Cursor getRecipientsFromRecipient(long timemillis){
+	/*public Cursor getRecipientsFromRecipient(long timemillis){
 		
 		databaseReadable = openHelper.getReadableDatabase();
 		return databaseReadable.rawQuery("select " + RECIPIENT_COLUMN_NUMBER + " from " + TABLE_RECIPIENT + " where " + RECIPIENT_COLUMN_TIMEMILLIS + "='" + timemillis + "'", null);	
-	}
+	}*/
 	
 	/*public void saveScheduleToSchedule(long timemilis, String[] data){
 		contentValues.put(SCHEDULE_COLUMN_DATETIME, data[0]);//datetime

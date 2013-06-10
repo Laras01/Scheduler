@@ -9,6 +9,7 @@ public class Schedule {
 	
 	public static int scheduleId;
 	public long timemillis;
+	public long timesent;
 	public String frequency;
 	public String remaining;
 	public String status;
@@ -24,7 +25,7 @@ public class Schedule {
 		this.contentMessages = contentMessages;
 	}
 	
-	public Schedule(long timemillis, String[] data){
+	public Schedule(long timemillis, long timesent, String[] data){
 		this.timemillis = timemillis;
 		this.dateTimeSch = data[0];
 		this.recipientNumbers = data[1];
@@ -33,6 +34,7 @@ public class Schedule {
 		this.remaining = data[4];
 		this.status = data[5];
 		this.freqtimes = data[6];
+		this.timesent = timesent;
 	}
 	
 	public int getImageId() {
@@ -115,6 +117,18 @@ public class Schedule {
 		this.scheduleId = scheduleId;
 	}
 	
+	public long getTimesent() {
+		return timesent;
+	}
+
+	public void setTimesent(long timesent) {
+		this.timesent = timesent;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public void setMessageType(String message){
 		
 		if(message.contains("%%")){

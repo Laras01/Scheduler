@@ -1,6 +1,10 @@
 package com.krl109.scheduler.db;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 import com.krl109.scheduler.R;
+import com.krl109.scheduler.linkedlist.ListQueue;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -13,11 +17,13 @@ import android.widget.Toast;
 
 public class AlarmManagerActivity extends Activity{
 	private TimeListDatabaseHelper databaseHelper = new TimeListDatabaseHelper(this);
-	SMSManager sms;
 	Schedule schedule;
 	long timemillis;
 	Cursor cursorRecipients;
 	String message;
+	
+	ArrayList<SMSManager> listMessage = new ArrayList<SMSManager>();
+	SMSManager sms = new SMSManager();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -26,7 +32,7 @@ public class AlarmManagerActivity extends Activity{
 		
 		//databaseHelper = new TimeListDatabaseHelper(this);
 		
-		Intent intent = getIntent();
+		/*Intent intent = getIntent();
 		timemillis = intent.getLongExtra("timemillis", 0);
 		message = databaseHelper.getMessageFromMessage(timemillis);
 		cursorRecipients = databaseHelper.getRecipientsFromRecipient(timemillis);
@@ -34,14 +40,16 @@ public class AlarmManagerActivity extends Activity{
 		//Toast.makeText(getApplicationContext(), "Timemillist = " + message, Toast.LENGTH_SHORT).show();
 		
 		while(cursorRecipients.moveToNext()){
-			
-			/*sms = new SMSActivity(cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")), message);
-			sms.sendSMS(sms.getPhoneNumber(), sms.getMessage());*/
+			sms.message = message;
+			sms.phoneNumber = cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number"));
+			listMessage.add(sms);
+			sms = new SMSActivity(cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")), message);
+			sms.sendSMS(sms.getPhoneNumber(), sms.getMessage());
 			//sms.sendSMS(cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")), message);
 			//Toast.makeText(getApplicationContext(), "Recipient = " + cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")) + "  Message = " + message, Toast.LENGTH_SHORT).show();
 		}
 		
-		Log.e("AlarmManagerActivity", "");
+		Log.e("AlarmManagerActivity", "");*/
 		
 		// get the timemillist passed by other activity or class by using intent
 		/*Intent intent = getIntent();

@@ -33,7 +33,7 @@ public class NewSchedule extends Activity implements OnClickListener
 {
 	protected static final int CONTACT_PICKER_RESULT = 1001;
 	private TimeListDatabaseHelper databaseHelper;
-	private long timemillis;
+	private long timemillis, timesent;
 	EditText recipient, datetime, content, freqTime;
 	Button btn_save, btn_cancel;
 	ImageButton btn_contact, btn_datetime, btn_template; 
@@ -102,6 +102,9 @@ public class NewSchedule extends Activity implements OnClickListener
 				data[5] = "scheduled"; //status
 				data[6] = "2";//freqtimes.frequencyTimes(frequency); //freqtimes // yang pake formula (belum dibuat)
 				
+				//put the original timemillis in timesent to refer ???
+				timesent = timemillis;
+				
 				//check the timemillis before save to database via TimeListDatabaseHelper
 				timemillis = databaseHelper.addTimemillis(timemillis);
 				
@@ -112,23 +115,23 @@ public class NewSchedule extends Activity implements OnClickListener
 				
 		    	//save to database via TimeListDatabaseHelper8
 				databaseHelper.saveTimeRecord(timemillis, data);*/
-				schedule = new Schedule(timemillis, data);
+				schedule = new Schedule(timemillis, timesent, data);
 				
 				//check the type of message, whether dynamic or static message -> contain %%y, etc
 				schedule.setMessageType(schedule.contentMessages);
 				data[7] = schedule.getType();
 				
-				databaseHelper.saveScheduletoMessage(schedule.getTimemillis(), data);
+				databaseHelper.saveScheduletoMessage(schedule.getTimemillis(), schedule.getTimesent(), data);
 				databaseHelper.saveScheduleToType(schedule);
 				databaseHelper.saveScheduleToTime(schedule.getTimemillis());
 				databaseHelper.saveScheduleToContact(schedule.getRecipientNumbers());
 				databaseHelper.saveScheduleToRecipient(schedule);
 				
 				Intent intent = new Intent(NewSchedule.this, SMSActivity.class);
-				intent.putExtra("timemillis", timemillis);
-				PendingIntent pending = PendingIntent.getActivity(NewSchedule.this, (int) timemillis, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+				intent.putExtra("timemillis", timesent);
+				PendingIntent pending = PendingIntent.getActivity(NewSchedule.this, (int) timemillis, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 				AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
-				alarm.set(AlarmManager.RTC_WAKEUP, timemillis, pending);
+				alarm.set(AlarmManager.RTC_WAKEUP, timesent, pending);
 				Toast t = Toast.makeText(NewSchedule.this, "" + (int) timemillis, Toast.LENGTH_LONG);
 				t.show();
 				
