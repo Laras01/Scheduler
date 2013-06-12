@@ -132,10 +132,10 @@ public class Schedule {
 	public void setMessageType(String message){
 		
 		if(message.contains("%%")){
-			this.type = "dynamic";
+			this.type = "typical";
 		}
 		else{
-			this.type = "static";
+			this.type = "normal";
 		}
 	}
 

@@ -58,10 +58,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 class DatabaseOpenHelper extends SQLiteOpenHelper {
 
 	private static final int DATABASE_VERSION = 1;
-	private static final String DATABASE_NAME = "scheduler-krl8.db";
+	private static final String DATABASE_NAME = "scheduler-krl10.db";
 	private static final String TABLE_MESSAGE = "message";
-	private static final String TABLE_STATIC_MESSAGE = "static_message";
-	private static final String TABLE_DYNAMIC_MESSAGE = "dynamic_message";
+	private static final String TABLE_NORMAL_MESSAGE = "normal_message";
+	private static final String TABLE_TYPICAL_MESSAGE = "typical_message";
 	private static final String TABLE_CONTACT_NUMBER = "contact";
 	private static final String TABLE_RECIPIENT = "recipient";
 	private static final String TABLE_TIME = "time";
@@ -77,7 +77,6 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 	public static final String MESSAGE_COLUMN_SONG = "message_song";
 	public static final String MESSAGE_COLUMN_ALERT = "message_alert";
 	public static final String MESSAGE_COLUMN_TIMEMILLIS = "message_timemillis";
-	public static final String MESSAGE_COLUMN_TIMESENT = "message_timesent";
 	
 	public static final String NORMALMESSAGE_COLUMN_ID = "nm_id";
 	public static final String NORMALMESSAGE_COLUMN_MESSAGE_ID = "nm_message_id";
@@ -104,6 +103,7 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 	public static final String TIME_COLUMN_TIMEMILLIS = "time_timemillis";
 	public static final String TIME_COLUMN_MESSAGE_ID = "time_message_id";
 	public static final String TIME_COLUMN_STATUS = "time_status";
+	public static final String TIME_COLUMN_TIMESENT = "time_timesent";
 
 	public static final String TEMPLATE_COLUMN_ID = "template_id";
 	public static final String TEMPLATE_COLUMN_CATEGORY_ID = "template_category_id";
@@ -172,8 +172,7 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 				+ MESSAGE_COLUMN_STATUS + " STRING, " 
 				+ MESSAGE_COLUMN_SONG + " STRING, " 
 				+ MESSAGE_COLUMN_ALERT + " STRING, " 
-				+ MESSAGE_COLUMN_TIMEMILLIS + " STRING, " 
-				+ MESSAGE_COLUMN_TIMESENT + " STRING)");
+				+ MESSAGE_COLUMN_TIMEMILLIS + " STRING)");
 		
 		database.execSQL("CREATE TABLE " + TABLE_CONTACT_NUMBER + "("
 				+ CONTACT_COLUMN_NUMBER + " STRING PRIMARY KEY)");
@@ -181,7 +180,8 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 		database.execSQL("CREATE TABLE " + TABLE_TIME + "("
 				+ TIME_COLUMN_TIMEMILLIS + " STRING PRIMARY KEY, " 
 				+ TIME_COLUMN_MESSAGE_ID + " INTEGER, " 
-				+ TIME_COLUMN_STATUS + " STRING, "
+				+ TIME_COLUMN_STATUS + " STRING, " 
+				+ TIME_COLUMN_TIMESENT + " STRING, "
 				+ "FOREIGN KEY (" + TIME_COLUMN_MESSAGE_ID + ") REFERENCES " + TABLE_MESSAGE + " (" + MESSAGE_COLUMN_ID + "))");
 		
 		database.execSQL("CREATE TABLE " + TABLE_RECIPIENT + "("
@@ -206,13 +206,13 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 				+ CATEGORY_COLUMN_ID + " INTEGER PRIMARY KEY, "
 				+ CATEGORY_COLUMN_TYPE + " STRING)");
 		
-		database.execSQL("CREATE TABLE " + TABLE_STATIC_MESSAGE + " (" 
+		database.execSQL("CREATE TABLE " + TABLE_NORMAL_MESSAGE + " (" 
 				+ NORMALMESSAGE_COLUMN_ID + " INTEGER PRIMARY KEY, " 
 				+ NORMALMESSAGE_COLUMN_MESSAGE_ID + " INTEGER, " 
 				+ NORMALMESSAGE_COLUMN_MESSAGE + " STRING, " 
 				+ "FOREIGN KEY (" + NORMALMESSAGE_COLUMN_MESSAGE_ID + ") REFERENCES " + TABLE_MESSAGE + " (" + MESSAGE_COLUMN_ID + "))");
 		
-		database.execSQL("CREATE TABLE " + TABLE_DYNAMIC_MESSAGE + " (" 
+		database.execSQL("CREATE TABLE " + TABLE_TYPICAL_MESSAGE + " (" 
 				+ TYPICALMESSAGE_COLUMN_ID + " INTEGER PRIMARY KEY, " 
 				+ TYPICALMESSAGE_COLUMN_MESSAGE_ID + " INTEGER, " 
 				+ TYPICALMESSAGE_COLUMN_MESSAGE + " STRING, " 
@@ -224,7 +224,7 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 				+ DEFINEDCHAR_COLUMN_VARIABLE + " STRING, " 
 				+ DEFINEDCHAR_COLUMN_CONTENT + " STRING, " 
 				+ DEFINEDCHAR_COLUMN_POSITION + " STRING, " 
-				+ "FOREIGN KEY (" + DEFINEDCHAR_COLUMN_DM_ID + ") REFERENCES " + TABLE_DYNAMIC_MESSAGE + " (" + TYPICALMESSAGE_COLUMN_ID + "))");
+				+ "FOREIGN KEY (" + DEFINEDCHAR_COLUMN_DM_ID + ") REFERENCES " + TABLE_TYPICAL_MESSAGE + " (" + TYPICALMESSAGE_COLUMN_ID + "))");
 		
 		/*database.execSQL("CREATE TABLE " + TABLE_SCHEDULE + "("
 				+ SCHEDULE_COLUMN_ID + " INTEGER PRIMARY KEY, "

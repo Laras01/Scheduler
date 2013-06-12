@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 import com.krl109.scheduler.linkedlist.TimeQueue;
+import com.krl109.scheduler.R;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -42,13 +43,13 @@ public class SMSActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.main);
+		setContentView(R.layout.new_schedule);
 		
 		//databaseHelper = new TimeListDatabaseHelper(this);
 		
 		Intent intent = getIntent();
 		timesent = intent.getLongExtra("timemillis", 0);
-		messageId = databaseHelper.getMessageIdFromMessage(timesent);
+		messageId = databaseHelper.getMessageIdFromTime(timesent);
 		
 		//int i = 1;
 		while(messageId.isEmpty() == false){

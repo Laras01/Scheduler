@@ -1,5 +1,6 @@
 package com.krl109.scheduler.newSchedule;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.app.Activity;
@@ -43,16 +44,22 @@ public class NewSchedule extends Activity implements OnClickListener
 
 	DatePicker date_schedule;
 	TimePicker time_schedule;
-	String[] data;
+	String[] data, dataRepetition;
+	long[] time;
 	boolean check;
 	Frequency freqtimes = new Frequency();
 	Schedule schedule;
+	
+	AlarmManager alarm;
+	
+	//ArrayList<Long> messageId = new ArrayList<Long>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_schedule);
+		alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
 		
 		databaseHelper = new TimeListDatabaseHelper(this);
 		
@@ -62,6 +69,8 @@ public class NewSchedule extends Activity implements OnClickListener
 		freqTime = (EditText) findViewById(R.id.stopAfter);
 		
 		data = new String[9];
+		time = new long[2];
+		dataRepetition = new String[2];
 		
 		//menampilkan dropdown pilihan frekuensi pengiriman
 		//show dropdown frequency options of send
@@ -102,9 +111,6 @@ public class NewSchedule extends Activity implements OnClickListener
 				data[5] = "scheduled"; //status
 				data[6] = "2";//freqtimes.frequencyTimes(frequency); //freqtimes // yang pake formula (belum dibuat)
 				
-				//put the original timemillis in timesent to refer ???
-				timesent = timemillis;
-				
 				//check the timemillis before save to database via TimeListDatabaseHelper
 				timemillis = databaseHelper.addTimemillis(timemillis);
 				
@@ -121,19 +127,21 @@ public class NewSchedule extends Activity implements OnClickListener
 				schedule.setMessageType(schedule.contentMessages);
 				data[7] = schedule.getType();
 				
-				databaseHelper.saveScheduletoMessage(schedule.getTimemillis(), schedule.getTimesent(), data);
+				databaseHelper.saveScheduletoMessage(schedule.getTimemillis(), data);
 				databaseHelper.saveScheduleToType(schedule);
-				databaseHelper.saveScheduleToTime(schedule.getTimemillis());
+				databaseHelper.saveScheduleToTime(schedule.getTimemillis(), timesent);
 				databaseHelper.saveScheduleToContact(schedule.getRecipientNumbers());
 				databaseHelper.saveScheduleToRecipient(schedule);
 				
+				//messageId.add(timesent);
+				
 				Intent intent = new Intent(NewSchedule.this, SMSActivity.class);
 				intent.putExtra("timemillis", timesent);
+				//intent.putExtra("timemillisas", messageId);
 				PendingIntent pending = PendingIntent.getActivity(NewSchedule.this, (int) timemillis, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-				AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
 				alarm.set(AlarmManager.RTC_WAKEUP, timesent, pending);
-				Toast t = Toast.makeText(NewSchedule.this, "" + (int) timemillis, Toast.LENGTH_LONG);
-				t.show();
+				/*Toast t = Toast.makeText(NewSchedule.this, "" + schedule.getTimesent(), Toast.LENGTH_SHORT);
+				t.show();*/
 				
 				/*Intent intent1 = new Intent(AlarmManageHelper.this, SMSActivity.class);
 				intent1.putExtra("phoneNumber", schedule.recipient);
@@ -203,6 +211,7 @@ public class NewSchedule extends Activity implements OnClickListener
 				calendar.set(date_schedule.getYear(), date_schedule.getMonth(), date_schedule.getDayOfMonth(), 
 						time_schedule.getCurrentHour(), time_schedule.getCurrentMinute());
 				timemillis = calendar.getTimeInMillis();
+				timesent = calendar.getTimeInMillis();
 				//mengambil tanggal dari datepicker
 				int day = date_schedule.getDayOfMonth();
 				int month = date_schedule.getMonth() + 1;

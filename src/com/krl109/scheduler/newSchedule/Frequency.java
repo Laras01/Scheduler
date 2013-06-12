@@ -1,5 +1,10 @@
 package com.krl109.scheduler.newSchedule;
 
+import com.krl109.scheduler.db.TimeListDatabaseHelper;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+
 public class Frequency {
 	String frequency;
 	int frequencyTimes;
@@ -60,5 +65,9 @@ public class Frequency {
 			frequencyTimes = 1;
 		}
 		return frequencyTimes;
+	}
+	
+	public void repetition(PendingIntent pending, AlarmManager alarm, TimeListDatabaseHelper databaseHelper, String[] data, long[] time){
+		alarm.set(AlarmManager.RTC_WAKEUP, time[1], pending);
 	}
 }
