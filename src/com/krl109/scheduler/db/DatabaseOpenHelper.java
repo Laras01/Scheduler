@@ -58,7 +58,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 class DatabaseOpenHelper extends SQLiteOpenHelper {
 
 	private static final int DATABASE_VERSION = 1;
-	private static final String DATABASE_NAME = "scheduler-krl10.db";
+	private static final String DATABASE_NAME = "scheduler-krl11.db";
 	private static final String TABLE_MESSAGE = "message";
 	private static final String TABLE_NORMAL_MESSAGE = "normal_message";
 	private static final String TABLE_TYPICAL_MESSAGE = "typical_message";
@@ -77,6 +77,7 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 	public static final String MESSAGE_COLUMN_SONG = "message_song";
 	public static final String MESSAGE_COLUMN_ALERT = "message_alert";
 	public static final String MESSAGE_COLUMN_TIMEMILLIS = "message_timemillis";
+	public static final String MESSAGE_COLUMN_FREQUENCY = "message_frequency";
 	
 	public static final String NORMALMESSAGE_COLUMN_ID = "nm_id";
 	public static final String NORMALMESSAGE_COLUMN_MESSAGE_ID = "nm_message_id";
@@ -172,7 +173,8 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 				+ MESSAGE_COLUMN_STATUS + " STRING, " 
 				+ MESSAGE_COLUMN_SONG + " STRING, " 
 				+ MESSAGE_COLUMN_ALERT + " STRING, " 
-				+ MESSAGE_COLUMN_TIMEMILLIS + " STRING)");
+				+ MESSAGE_COLUMN_TIMEMILLIS + " STRING, " 
+				+ MESSAGE_COLUMN_FREQUENCY + " STRING)");
 		
 		database.execSQL("CREATE TABLE " + TABLE_CONTACT_NUMBER + "("
 				+ CONTACT_COLUMN_NUMBER + " STRING PRIMARY KEY)");

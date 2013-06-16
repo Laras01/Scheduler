@@ -7,7 +7,7 @@ public class Schedule {
 	public String recipientNumbers;
 	public String contentMessages;
 	
-	public static int scheduleId;
+	public static String scheduleId;
 	public long timemillis;
 	public long timesent;
 	public String frequency;
@@ -109,11 +109,11 @@ public class Schedule {
 		this.freqtimes = freqtimes;
 	}
 	
-	public int getScheduleId() {
+	public String getScheduleId() {
 		return scheduleId;
 	}
 
-	public void setScheduleId(int scheduleId) {
+	public void setScheduleId(String scheduleId) {
 		this.scheduleId = scheduleId;
 	}
 	

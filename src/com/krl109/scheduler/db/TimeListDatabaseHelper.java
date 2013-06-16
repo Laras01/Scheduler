@@ -51,6 +51,7 @@ public class TimeListDatabaseHelper {
 	public static final String MESSAGE_COLUMN_SONG = "message_song";
 	public static final String MESSAGE_COLUMN_ALERT = "message_alert";
 	public static final String MESSAGE_COLUMN_TIMEMILLIS = "message_timemillis";
+	public static final String MESSAGE_COLUMN_FREQUENCY = "message_frequency";
 	
 	public static final String NORMALMESSAGE_COLUMN_ID = "nm_id";
 	public static final String NORMALMESSAGE_COLUMN_MESSAGE_ID = "nm_message_id";
@@ -130,23 +131,24 @@ public class TimeListDatabaseHelper {
 		contentValues.put(MESSAGE_COLUMN_ALERT, "not defined yet");//alert
 		contentValues.put(MESSAGE_COLUMN_TIMEMILLIS, timemillis);
 		contentValues.put(MESSAGE_COLUMN_TYPE, data[7]);
+		contentValues.put(MESSAGE_COLUMN_FREQUENCY, data[3]);
 		databaseWriteable.insert(TABLE_MESSAGE, null, contentValues);
 		contentValues.clear();
 	}
 	
 	public void saveScheduleToTime(long timemillis, long timesent){
 		
-		databaseReadable = openHelper.getReadableDatabase();
 		databaseWriteable = openHelper.getWritableDatabase();
+		//databaseReadable = openHelper.getReadableDatabase();
 		Schedule schedule = new Schedule();
 		
 		//do fetching from table schedule to get schedule_id
-		Cursor cursor = databaseReadable.rawQuery("select * from " + TABLE_MESSAGE + " where " + MESSAGE_COLUMN_TIMEMILLIS + "='" + timemillis +"'", null);
+		/*Cursor cursor = databaseReadable.rawQuery("select * from " + TABLE_MESSAGE + " where " + MESSAGE_COLUMN_TIMEMILLIS + "='" + timemillis +"'", null);
 		if(cursor != null){
 			while(cursor.moveToNext()){
-				schedule.setScheduleId(cursor.getInt(cursor.getColumnIndex(MESSAGE_COLUMN_ID)));
+				schedule.setScheduleId(cursor.getString(cursor.getColumnIndex(MESSAGE_COLUMN_ID)));
 			}
-		}
+		}*/
 		
 		//do saving to table time
 		contentValues.put(TIME_COLUMN_TIMEMILLIS, timemillis);
@@ -209,7 +211,7 @@ public class TimeListDatabaseHelper {
 	}
 	
 	//lihat lagi function ini, takutnya ada bentrok di timemillisnya, contohnya kalau ada schedule dihapus.
-	public long addTimemillis(long timemillis){
+	/*public long addTimemillis(long timemillis){
 		
 		databaseReadable = openHelper.getReadableDatabase();
 		
@@ -217,6 +219,21 @@ public class TimeListDatabaseHelper {
 		
 		if(cursor.moveToNext() == true){
 			timemillis = timemillis + 1;
+		}
+		
+		return timemillis;
+	}*/
+	
+	public long addTimemillisFromTime(long timemillis){
+		
+		databaseReadable = openHelper.getReadableDatabase();
+		
+		Cursor cursor = databaseReadable.rawQuery("select " + TIME_COLUMN_TIMEMILLIS + " from " + TABLE_TIME, null);
+		
+		while(cursor.moveToNext() == true){
+			if(cursor.getLong(cursor.getColumnIndex(TIME_COLUMN_TIMEMILLIS)) == timemillis){
+				timemillis = timemillis + 1;
+			}
 		}
 		
 		return timemillis;
@@ -255,6 +272,20 @@ public class TimeListDatabaseHelper {
 		
 		databaseReadable = openHelper.getReadableDatabase();
 		return databaseReadable.rawQuery("select " + RECIPIENT_COLUMN_NUMBER + " from " + TABLE_RECIPIENT + " where " + RECIPIENT_COLUMN_MESSAGE_ID + "='" + messageId + "'", null);	
+	}
+	
+	public void setMessageIdFromMessage(long timemillis){
+		
+		databaseReadable = openHelper.getReadableDatabase();
+		Schedule schedule = new Schedule();
+		
+		//do fetching from table schedule to get schedule_id
+		Cursor cursor = databaseReadable.rawQuery("select * from " + TABLE_MESSAGE + " where " + MESSAGE_COLUMN_TIMEMILLIS + "='" + timemillis +"'", null);
+		if(cursor != null){
+			while(cursor.moveToNext()){
+				schedule.setScheduleId(cursor.getString(cursor.getColumnIndex(MESSAGE_COLUMN_ID)));
+			}
+		}
 	}
 	
 	/*public String getMessageFromMessage(long timemillis){

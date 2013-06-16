@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -70,7 +71,7 @@ public class NewSchedule extends Activity implements OnClickListener
 		
 		data = new String[9];
 		time = new long[2];
-		dataRepetition = new String[2];
+		dataRepetition = new String[3];
 		
 		//menampilkan dropdown pilihan frekuensi pengiriman
 		//show dropdown frequency options of send
@@ -112,7 +113,7 @@ public class NewSchedule extends Activity implements OnClickListener
 				data[6] = "2";//freqtimes.frequencyTimes(frequency); //freqtimes // yang pake formula (belum dibuat)
 				
 				//check the timemillis before save to database via TimeListDatabaseHelper
-				timemillis = databaseHelper.addTimemillis(timemillis);
+				timemillis = databaseHelper.addTimemillisFromTime(timemillis);
 				
 				/*Toast.makeText(getApplicationContext(), "Schedule saved", Toast.LENGTH_SHORT).show();
 				Intent create_schedule = new Intent(NewSchedule.this, AlarmManageHelper.class);
@@ -129,17 +130,36 @@ public class NewSchedule extends Activity implements OnClickListener
 				
 				databaseHelper.saveScheduletoMessage(schedule.getTimemillis(), data);
 				databaseHelper.saveScheduleToType(schedule);
+				databaseHelper.setMessageIdFromMessage(timemillis);
 				databaseHelper.saveScheduleToTime(schedule.getTimemillis(), timesent);
 				databaseHelper.saveScheduleToContact(schedule.getRecipientNumbers());
 				databaseHelper.saveScheduleToRecipient(schedule);
 				
+				/*Toast t = Toast.makeText(NewSchedule.this, "" + Integer.parseInt(data[4]), Toast.LENGTH_LONG);
+				t.show();*/
+				
 				//messageId.add(timesent);
 				
+				//check whether schedule has repetition or not
 				Intent intent = new Intent(NewSchedule.this, SMSActivity.class);
-				intent.putExtra("timemillis", timesent);
-				//intent.putExtra("timemillisas", messageId);
 				PendingIntent pending = PendingIntent.getActivity(NewSchedule.this, (int) timemillis, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-				alarm.set(AlarmManager.RTC_WAKEUP, timesent, pending);
+				if(data[3] != "Once"){
+					dataRepetition[0] = data[3]; //frequency
+					dataRepetition[1] = schedule.getScheduleId(); //messageId
+					dataRepetition[2] = data[4]; //remaining
+					
+					time[0] = timemillis;
+					time[1] = timesent;
+					
+					freqtimes.repetition(pending, alarm, databaseHelper, dataRepetition, time);
+				}
+				else{
+					alarm.set(AlarmManager.RTC_WAKEUP, timesent, pending);
+				}
+				//intent.putExtra("timemillis", timesent);
+				//intent.putExtra("timemillisas", messageId);
+				/*PendingIntent pending = PendingIntent.getActivity(NewSchedule.this, (int) timemillis, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+				alarm.set(AlarmManager.RTC_WAKEUP, timesent, pending);*/
 				/*Toast t = Toast.makeText(NewSchedule.this, "" + schedule.getTimesent(), Toast.LENGTH_SHORT);
 				t.show();*/
 				

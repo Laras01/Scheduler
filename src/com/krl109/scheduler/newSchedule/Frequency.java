@@ -1,5 +1,7 @@
 package com.krl109.scheduler.newSchedule;
 
+import java.util.ArrayList;
+
 import com.krl109.scheduler.db.TimeListDatabaseHelper;
 
 import android.app.AlarmManager;
@@ -67,7 +69,32 @@ public class Frequency {
 		return frequencyTimes;
 	}
 	
+	/*public long repetititon(String frequency, int remaining){
+		
+		long newTimesent = 0;
+		
+		return newTimesent;
+	}*/
+	
 	public void repetition(PendingIntent pending, AlarmManager alarm, TimeListDatabaseHelper databaseHelper, String[] data, long[] time){
-		alarm.set(AlarmManager.RTC_WAKEUP, time[1], pending);
+		long timemillis = time[0];
+		long timesent = time[1];
+		
+		String frequency = data[0];
+		String messageId = data[1];
+		
+		alarm.setRepeating(AlarmManager.RTC_WAKEUP, timesent, 5000, pending);
+		for(int remaining = Integer.parseInt(data[2]); remaining > 1; remaining = remaining-1){
+//			alarm.setRepeating(AlarmManager.RTC_WAKEUP, timesent, 5000, pending);
+//			timesent = timesent + 5000;
+			timemillis = databaseHelper.addTimemillisFromTime(timemillis);
+			databaseHelper.saveScheduleToTime(timemillis, timesent);
+		}
+	}
+	
+	public ArrayList<Long> codeRequest(long timemillis){
+		ArrayList<Long> code = new ArrayList<Long>();
+		
+		return code;
 	}
 }

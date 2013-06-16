@@ -1,6 +1,7 @@
 package com.krl109.scheduler.db;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
@@ -27,7 +28,7 @@ public class SMSActivity extends Activity {
 	String message;
 	
 	Schedule schedule;
-	long timesent;
+	ArrayList<Long> timesent = new ArrayList<Long>();
 	Cursor cursorRecipients;
 	//ArrayList<TimeQueue> timemillis = new ArrayList<TimeQueue>();
 	ArrayList<String> messageId = new ArrayList<String>();
@@ -47,22 +48,33 @@ public class SMSActivity extends Activity {
 		
 		//databaseHelper = new TimeListDatabaseHelper(this);
 		
-		Intent intent = getIntent();
-		timesent = intent.getLongExtra("timemillis", 0);
-		messageId = databaseHelper.getMessageIdFromTime(timesent);
+		//get time now
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		timesent.add(calendar.getTimeInMillis());
+		
+		/*Intent intent = getIntent();
+		timesent = intent.getLongExtra("timemillis", 0);*/
+		while(timesent.isEmpty() == false){
+			messageId = databaseHelper.getMessageIdFromTime(timesent.get(0));
+			while(messageId.isEmpty() == false){
+				msgId = messageId.get(0);
+				message = databaseHelper.getMessageFromMessage(msgId);
+				cursorRecipients = databaseHelper.getRecipientsFromRecipient(msgId);
+				while(cursorRecipients.moveToNext()){
+					//sendSMS(cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")), message);
+					Toast.makeText(getApplicationContext(), "p=" + cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")), Toast.LENGTH_SHORT).show();
+					//i++;
+				}
+				messageId.remove(0);
+			}
+			timesent.remove(0);
+		}
+		
 		
 		//int i = 1;
-		while(messageId.isEmpty() == false){
-			msgId = messageId.get(0);
-			message = databaseHelper.getMessageFromMessage(msgId);
-			cursorRecipients = databaseHelper.getRecipientsFromRecipient(msgId);
-			while(cursorRecipients.moveToNext()){
-				//sendSMS(cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")), message);
-				Toast.makeText(getApplicationContext(), "p=" + cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")), Toast.LENGTH_SHORT).show();
-				//i++;
-			}
-			messageId.remove(0);
-		}
+		
 		/*timeQueue.setTimemillis(intent.getLongExtra("timemillis", 0));
 		timemillis.add(timeQueue);*/
 		/*message = databaseHelper.getMessageFromMessage(timemillis);
