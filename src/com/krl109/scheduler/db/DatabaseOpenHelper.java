@@ -58,7 +58,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 class DatabaseOpenHelper extends SQLiteOpenHelper {
 
 	private static final int DATABASE_VERSION = 1;
-	private static final String DATABASE_NAME = "scheduler-krl11.db";
+	private static final String DATABASE_NAME = "scheduler-krl12.db";
 	private static final String TABLE_MESSAGE = "message";
 	private static final String TABLE_NORMAL_MESSAGE = "normal_message";
 	private static final String TABLE_TYPICAL_MESSAGE = "typical_message";
@@ -96,7 +96,6 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 	public static final String CONTACT_COLUMN_NUMBER = "contact_number";
 
 	public static final String RECIPIENT_COLUMN_ID = "recipient_id";
-	public static final String RECIPIENT_COLUMN_TIMEMILLIS = "recipient_timemillis";
 	public static final String RECIPIENT_COLUMN_MESSAGE_ID = "recipient_message_id";
 	public static final String RECIPIENT_COLUMN_NUMBER = "recipient_number";
 	public static final String RECIPIENT_COLUMN_STATUS = "recipient_status";
@@ -188,12 +187,10 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 		
 		database.execSQL("CREATE TABLE " + TABLE_RECIPIENT + "("
 				+ RECIPIENT_COLUMN_ID + " INTEGER PRIMARY KEY, "
-				+ RECIPIENT_COLUMN_TIMEMILLIS + " STRING, "
 				+ RECIPIENT_COLUMN_MESSAGE_ID + " INTEGER, "
 				+ RECIPIENT_COLUMN_NUMBER + " STRING, " 
 				+ RECIPIENT_COLUMN_STATUS + " STRING, "
 				+ "FOREIGN KEY (" + RECIPIENT_COLUMN_MESSAGE_ID + ") REFERENCES " + TABLE_MESSAGE + " (" + MESSAGE_COLUMN_ID + "), "
-				+ "FOREIGN KEY (" + RECIPIENT_COLUMN_TIMEMILLIS + ") REFERENCES " + TABLE_TIME + " (" + TIME_COLUMN_TIMEMILLIS + "), " 
 				+ "FOREIGN KEY (" + RECIPIENT_COLUMN_NUMBER + ") REFERENCES " + TABLE_CONTACT_NUMBER + " (" + CONTACT_COLUMN_NUMBER + "))");
 		
 		database.execSQL("CREATE TABLE " + TABLE_TEMPLATE + " ("

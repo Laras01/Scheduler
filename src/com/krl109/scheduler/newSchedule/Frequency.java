@@ -3,6 +3,7 @@ package com.krl109.scheduler.newSchedule;
 import java.util.ArrayList;
 
 import com.krl109.scheduler.db.TimeListDatabaseHelper;
+import com.krl109.scheduler.tabLayout.Schedule;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -79,17 +80,60 @@ public class Frequency {
 	public void repetition(PendingIntent pending, AlarmManager alarm, TimeListDatabaseHelper databaseHelper, String[] data, long[] time){
 		long timemillis = time[0];
 		long timesent = time[1];
+		//Schedule schedule = new Schedule();
 		
 		String frequency = data[0];
 		String messageId = data[1];
 		
-		alarm.setRepeating(AlarmManager.RTC_WAKEUP, timesent, 5000, pending);
+		long interval = interval(frequency);
+		
+		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, timesent, 5000, pending);
+		alarm.setRepeating(AlarmManager.RTC_WAKEUP, timesent, interval, pending);
 		for(int remaining = Integer.parseInt(data[2]); remaining > 1; remaining = remaining-1){
-//			alarm.setRepeating(AlarmManager.RTC_WAKEUP, timesent, 5000, pending);
-//			timesent = timesent + 5000;
 			timemillis = databaseHelper.addTimemillisFromTime(timemillis);
-			databaseHelper.saveScheduleToTime(timemillis, timesent);
+			databaseHelper.saveScheduleToTime(timemillis, timesent, messageId);
 		}
+	}
+	
+	public long interval(String frequency){
+		long interval = 0;
+		
+		if(frequency=="hourly"){
+			interval = AlarmManager.INTERVAL_HOUR;
+		}
+		else if(frequency=="2 hourly"){
+			interval = 2*AlarmManager.INTERVAL_HOUR;
+		}
+		else if(frequency=="4 hourly"){
+			interval = 4*AlarmManager.INTERVAL_HOUR;
+		}
+		else if(frequency=="6 hourly"){
+			interval = 6*AlarmManager.INTERVAL_HOUR;
+		}
+		else if(frequency=="8 hourly"){
+			interval = 8*AlarmManager.INTERVAL_HOUR;
+		}
+		else if(frequency=="12 hourly"){
+			interval = 12*AlarmManager.INTERVAL_HOUR;
+		}
+		else if(frequency=="daily"){
+			interval = AlarmManager.INTERVAL_DAY;
+		}
+		else if(frequency=="weekly"){
+			interval = 7*AlarmManager.INTERVAL_DAY;
+		}
+		else if(frequency=="2 weekly"){
+			interval = 2*7*AlarmManager.INTERVAL_DAY;
+		}
+		else if(frequency=="3 weekly"){
+			interval = 3*7*AlarmManager.INTERVAL_DAY;
+		}
+		else{//the others frequency will be set as fifteen minutes interval since the code haven't done yet
+			interval = AlarmManager.INTERVAL_FIFTEEN_MINUTES;
+		}
+		
+		//"monthly", "yearly", "2 monthly", "4 monthly", "6 monthly" <- haven't been implemented
+		return interval;
 	}
 	
 	public ArrayList<Long> codeRequest(long timemillis){

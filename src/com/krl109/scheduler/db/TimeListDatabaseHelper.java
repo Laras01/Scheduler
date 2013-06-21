@@ -70,7 +70,6 @@ public class TimeListDatabaseHelper {
 	public static final String CONTACT_COLUMN_NUMBER = "contact_number";
 
 	public static final String RECIPIENT_COLUMN_ID = "recipient_id";
-	public static final String RECIPIENT_COLUMN_TIMEMILLIS = "recipient_timemillis";
 	public static final String RECIPIENT_COLUMN_MESSAGE_ID = "recipient_message_id";
 	public static final String RECIPIENT_COLUMN_NUMBER = "recipient_number";
 	public static final String RECIPIENT_COLUMN_STATUS = "recipient_status";
@@ -136,11 +135,10 @@ public class TimeListDatabaseHelper {
 		contentValues.clear();
 	}
 	
-	public void saveScheduleToTime(long timemillis, long timesent){
+	public void saveScheduleToTime(long timemillis, long timesent, String messageId){
 		
 		databaseWriteable = openHelper.getWritableDatabase();
 		//databaseReadable = openHelper.getReadableDatabase();
-		Schedule schedule = new Schedule();
 		
 		//do fetching from table schedule to get schedule_id
 		/*Cursor cursor = databaseReadable.rawQuery("select * from " + TABLE_MESSAGE + " where " + MESSAGE_COLUMN_TIMEMILLIS + "='" + timemillis +"'", null);
@@ -152,7 +150,7 @@ public class TimeListDatabaseHelper {
 		
 		//do saving to table time
 		contentValues.put(TIME_COLUMN_TIMEMILLIS, timemillis);
-		contentValues.put(TIME_COLUMN_MESSAGE_ID, schedule.getScheduleId());
+		contentValues.put(TIME_COLUMN_MESSAGE_ID, messageId);
 		contentValues.put(TIME_COLUMN_STATUS, "not defined yet");
 		contentValues.put(TIME_COLUMN_TIMESENT, timesent);
 		databaseWriteable.insert(TABLE_TIME, null, contentValues);
@@ -176,35 +174,34 @@ public class TimeListDatabaseHelper {
 		contentValues.clear();
 	}
 	
-	public void saveScheduleToRecipient(Schedule schedule){
+	public void saveScheduleToRecipient(String recipients, String messageId){
 		
 		databaseWriteable = openHelper.getWritableDatabase();
 		
-		StringTokenizer st = new StringTokenizer(schedule.getRecipientNumbers(), ";");
+		StringTokenizer st = new StringTokenizer(recipients, ";");
 		while (st.hasMoreElements()) {
 			String tempPhoneNumber = (String) st.nextElement();
 			contentValues.put(RECIPIENT_COLUMN_NUMBER, tempPhoneNumber);
-			contentValues.put(RECIPIENT_COLUMN_MESSAGE_ID, schedule.getScheduleId());
+			contentValues.put(RECIPIENT_COLUMN_MESSAGE_ID, messageId);
 			contentValues.put(RECIPIENT_COLUMN_STATUS, "not defined yet");
-			contentValues.put(RECIPIENT_COLUMN_TIMEMILLIS, schedule.getTimemillis());
 			databaseWriteable.insert(TABLE_RECIPIENT, null, contentValues);
 			contentValues.clear();
 		}
 		contentValues.clear();
 	}
 	
-	public void saveScheduleToType(Schedule schedule){
+	public void saveScheduleToType(String type, String content, String messageId){
 		
 		databaseWriteable = openHelper.getWritableDatabase();
 		
-		if(schedule.getType() == "normal"){
-			contentValues.put(NORMALMESSAGE_COLUMN_MESSAGE, schedule.getContentMessages());
-			contentValues.put(NORMALMESSAGE_COLUMN_MESSAGE_ID, schedule.getScheduleId());
+		if(type == "normal"){
+			contentValues.put(NORMALMESSAGE_COLUMN_MESSAGE, content);
+			contentValues.put(NORMALMESSAGE_COLUMN_MESSAGE_ID, messageId);
 			databaseWriteable.insert(TABLE_NORMAL_MESSAGE, null, contentValues);
 		}
 		else{
-			contentValues.put(TYPICALMESSAGE_COLUMN_MESSAGE, schedule.getContentMessages());
-			contentValues.put(TYPICALMESSAGE_COLUMN_MESSAGE_ID, schedule.getScheduleId());
+			contentValues.put(TYPICALMESSAGE_COLUMN_MESSAGE, content);
+			contentValues.put(TYPICALMESSAGE_COLUMN_MESSAGE_ID, messageId);
 			databaseWriteable.insert(TABLE_TYPICAL_MESSAGE, null, contentValues);
 		}
 		contentValues.clear();
@@ -274,6 +271,24 @@ public class TimeListDatabaseHelper {
 		return databaseReadable.rawQuery("select " + RECIPIENT_COLUMN_NUMBER + " from " + TABLE_RECIPIENT + " where " + RECIPIENT_COLUMN_MESSAGE_ID + "='" + messageId + "'", null);	
 	}
 	
+	public String recipients(Cursor recipient){
+		String recipients = null;
+		ArrayList<String> contact = new ArrayList<String>();
+		StringBuilder sb = new StringBuilder();
+		
+		while(recipient.moveToNext()){
+			contact.add(recipient.getString(recipient.getColumnIndex(RECIPIENT_COLUMN_NUMBER)));
+		}
+		
+		sb.append(contact.get(0));
+		for(int i = 1; i < contact.size(); i++){
+			sb.append(";");
+			sb.append(contact.get(i));
+		}
+		recipients = sb.toString();
+		return recipients;
+	}
+	
 	public void setMessageIdFromMessage(long timemillis){
 		
 		databaseReadable = openHelper.getReadableDatabase();
@@ -286,6 +301,12 @@ public class TimeListDatabaseHelper {
 				schedule.setScheduleId(cursor.getString(cursor.getColumnIndex(MESSAGE_COLUMN_ID)));
 			}
 		}
+	}
+	
+	//get the number of row
+	public int count(Cursor cursor){
+		int count = cursor.getCount();
+		return count;
 	}
 	
 	/*public String getMessageFromMessage(long timemillis){

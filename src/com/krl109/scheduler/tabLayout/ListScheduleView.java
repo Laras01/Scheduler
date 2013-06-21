@@ -1,6 +1,7 @@
 package com.krl109.scheduler.tabLayout;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
@@ -59,7 +60,10 @@ OnItemClickListener {
 //			int i = 0;
 			do{
 				cursor.getLong(1);
-				Schedule item = new Schedule(images[0], cursor.getString(2), cursor.getString(3), cursor.getString(4));
+//				Schedule item = new Schedule(images[0], cursor.getString(2), cursor.getString(3), cursor.getString(4));
+				
+				//Schedule item = new Schedule(images[0], scheduleId, datetime, recipient, message);
+				Schedule item = new Schedule(images[0], cursor.getString(0), cursor.getString(3), cursor.getString(7), cursor.getString(1));
 				schedule.add(item);
 //				i++;
 			}while(cursor.moveToNext());
@@ -95,7 +99,7 @@ OnItemClickListener {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		Toast toast = Toast.makeText(getApplicationContext(),
-				"Item " + (position + 1) + ": " + schedule.get(position),
+				"Item " + (position + 1) + ": " + schedule.get(position).getScheduleId(),
 				Toast.LENGTH_SHORT);
 		toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
 		toast.show();
@@ -175,7 +179,7 @@ OnItemClickListener {
 				}
 				else if(sJwban.equals("Edit Content"))
 				{
-					Intent intent = new Intent(ListScheduleView.this, EditContent.class);  
+					Intent intent = new Intent(ListScheduleView.this, EditContent.class);
 				    startActivity(intent);
 				}
 			}
@@ -202,11 +206,20 @@ OnItemClickListener {
 			@Override
 			public void onClick(View v) 
 			{
+				long timemillis, timesent;
 				//mengambil tanggal dari datepicker
 				int day = date_schedule.getDayOfMonth();
 				int month = date_schedule.getMonth() + 1;
 				int year = date_schedule.getYear();
-				String date = day + "/" + month + "/" + year; 
+				String date = day + "/" + month + "/" + year;
+				
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.MILLISECOND, 0);
+				calendar.set(date_schedule.getYear(), date_schedule.getMonth(), date_schedule.getDayOfMonth(), 
+						time_schedule.getCurrentHour(), time_schedule.getCurrentMinute());
+				timemillis = calendar.getTimeInMillis();
+				timesent = calendar.getTimeInMillis();
 						
 				//mengambil waktu dari time picker
 				int hour = time_schedule.getCurrentHour();

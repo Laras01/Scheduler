@@ -25,6 +25,14 @@ public class Schedule {
 		this.contentMessages = contentMessages;
 	}
 	
+	public Schedule(int imageId, String scheduleId, String dateTime, String recipientNumbers, String contentMessages){
+		this.imageId = imageId;
+		Schedule.scheduleId = scheduleId;
+		this.dateTimeSch = dateTime;
+		this.recipientNumbers = recipientNumbers;
+		this.contentMessages = contentMessages;
+	}
+	
 	public Schedule(long timemillis, long timesent, String[] data){
 		this.timemillis = timemillis;
 		this.dateTimeSch = data[0];

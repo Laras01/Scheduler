@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -68,6 +69,15 @@ public class NewSchedule extends Activity implements OnClickListener
 		datetime = (EditText) findViewById(R.id.datetime);
 		content = (EditText) findViewById(R.id.content);
 		freqTime = (EditText) findViewById(R.id.stopAfter);
+		
+		while(AndroidContactsSelector.name.size() > 0)
+		{
+			for (int i=0;i < AndroidContactsSelector.name.size();i++)
+			{
+				//Log.d("recipient", AndroidContactsSelector.name.get(i));
+				recipient.setText(AndroidContactsSelector.name.get(i));
+			}
+		}
 		
 		data = new String[9];
 		time = new long[2];
@@ -129,11 +139,11 @@ public class NewSchedule extends Activity implements OnClickListener
 				data[7] = schedule.getType();
 				
 				databaseHelper.saveScheduletoMessage(schedule.getTimemillis(), data);
-				databaseHelper.saveScheduleToType(schedule);
+				databaseHelper.saveScheduleToType(data[7], schedule.getContentMessages(), schedule.getScheduleId());
 				databaseHelper.setMessageIdFromMessage(timemillis);
-				databaseHelper.saveScheduleToTime(schedule.getTimemillis(), timesent);
+				databaseHelper.saveScheduleToTime(schedule.getTimemillis(), timesent, schedule.getScheduleId());
 				databaseHelper.saveScheduleToContact(schedule.getRecipientNumbers());
-				databaseHelper.saveScheduleToRecipient(schedule);
+				databaseHelper.saveScheduleToRecipient(data[1], schedule.getScheduleId());
 				
 				/*Toast t = Toast.makeText(NewSchedule.this, "" + Integer.parseInt(data[4]), Toast.LENGTH_LONG);
 				t.show();*/
@@ -262,7 +272,10 @@ public class NewSchedule extends Activity implements OnClickListener
 	
 	public void doLaunchContactPicker(View v)
 	{
-		Intent contactPicker = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
-		startActivityForResult(contactPicker, CONTACT_PICKER_RESULT);
+		/*Intent contactPicker = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
+		startActivityForResult(contactPicker, CONTACT_PICKER_RESULT);*/
+		
+		Intent contactPicker = new Intent(NewSchedule.this, AndroidContactsSelector.class);
+		startActivity(contactPicker);
 	}
 }
