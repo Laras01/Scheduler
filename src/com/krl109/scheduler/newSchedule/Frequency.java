@@ -91,6 +91,7 @@ public class Frequency {
 		alarm.setRepeating(AlarmManager.RTC_WAKEUP, timesent, interval, pending);
 		for(int remaining = Integer.parseInt(data[2]); remaining > 1; remaining = remaining-1){
 			timemillis = databaseHelper.addTimemillisFromTime(timemillis);
+			timesent = timesent + interval;
 			databaseHelper.saveScheduleToTime(timemillis, timesent, messageId);
 		}
 	}

@@ -37,7 +37,7 @@ public class NewSchedule extends Activity implements OnClickListener
 	protected static final int CONTACT_PICKER_RESULT = 1001;
 	private TimeListDatabaseHelper databaseHelper;
 	private long timemillis, timesent;
-	EditText recipient, datetime, content, freqTime;
+	public static EditText recipient, datetime, content, freqTime;
 	Button btn_save, btn_cancel;
 	ImageButton btn_contact, btn_datetime, btn_template; 
 	Spinner frequency;
@@ -69,15 +69,6 @@ public class NewSchedule extends Activity implements OnClickListener
 		datetime = (EditText) findViewById(R.id.datetime);
 		content = (EditText) findViewById(R.id.content);
 		freqTime = (EditText) findViewById(R.id.stopAfter);
-		
-		while(AndroidContactsSelector.name.size() > 0)
-		{
-			for (int i=0;i < AndroidContactsSelector.name.size();i++)
-			{
-				//Log.d("recipient", AndroidContactsSelector.name.get(i));
-				recipient.setText(AndroidContactsSelector.name.get(i));
-			}
-		}
 		
 		data = new String[9];
 		time = new long[2];
@@ -139,8 +130,8 @@ public class NewSchedule extends Activity implements OnClickListener
 				data[7] = schedule.getType();
 				
 				databaseHelper.saveScheduletoMessage(schedule.getTimemillis(), data);
-				databaseHelper.saveScheduleToType(data[7], schedule.getContentMessages(), schedule.getScheduleId());
 				databaseHelper.setMessageIdFromMessage(timemillis);
+				databaseHelper.saveScheduleToType(data[7], schedule.getContentMessages(), schedule.getScheduleId());
 				databaseHelper.saveScheduleToTime(schedule.getTimemillis(), timesent, schedule.getScheduleId());
 				databaseHelper.saveScheduleToContact(schedule.getRecipientNumbers());
 				databaseHelper.saveScheduleToRecipient(data[1], schedule.getScheduleId());
@@ -182,6 +173,8 @@ public class NewSchedule extends Activity implements OnClickListener
 				
 				/*Toast t = Toast.makeText(NewSchedule.this, "" + schedule.getScheduleId(), Toast.LENGTH_LONG);
 				t.show();*/
+				Toast t = Toast.makeText(NewSchedule.this, "Scheduled", Toast.LENGTH_SHORT);
+				t.show();
 			}
 		});
 		
