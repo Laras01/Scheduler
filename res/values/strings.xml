@@ -11,15 +11,16 @@
 		<item>KoTA 109</item>
 	</string-array>
 	
+    <string name="typical_type">Typical Message</string>
+    <string name="normal_type">Normal Message</string>
+    
      <string name="image">Thumbnail</string>
     <string name="alert">Alert</string>
     <string name="notification">Notification</string>
     <string name="menubutton">Setting</string>
     
-    <string name="radio_age">Age</string>
-    <string name="radio_date">Date</string>
-    <string name="radio_month">Month</string>
-    <string name="radio_year">Year</string>
+    <string name="radio_birthday">Birthday</string>
+    <string name="radio_anniv">Anniversary</string>
     
     <string name="button_ok">OK</string>
     <string name="button_save">Save</string>

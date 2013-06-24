@@ -24,48 +24,59 @@
         android:layout_alignRight="@+id/View01"
         android:layout_alignTop="@+id/View01"
         android:text="@string/button_cancel" />
-
-    <RadioGroup
-        android:id="@+id/radioDataCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <RadioButton
-            android:id="@+id/radioAge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/radio_age" />
-
-        <RadioButton
-            android:id="@+id/radioDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/radio_date" />
-
-        <RadioButton
-            android:id="@+id/radioMonth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="19dp"
-            android:text="@string/radio_month" />
-
-        <RadioButton
-            android:id="@+id/radioYear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="@string/radio_year" />
-    </RadioGroup>
+    
 
     <View
         android:id="@+id/View01"
         android:layout_width="wrap_content"
         android:layout_height="2dip"
         android:layout_alignLeft="@+id/btn_ok"
+        android:layout_below="@+id/lvCheckBox"
         android:layout_centerVertical="true"
         android:background="#48D1CC"
         android:paddingBottom="5dp" />
+    
+    <ListView
+        android:id="@+id/lvCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:cacheColorHint="@null"
+        android:fadingEdge="none" >
+
+    </ListView>
+
+    <!-- <CheckBox
+        android:id="@+id/checkMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/checkDate"
+        android:layout_below="@+id/checkDate"
+        android:text="@string/check_month" />
+
+    <CheckBox
+        android:id="@+id/checkAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/View01"
+        android:text="@string/check_age" />
+
+    <CheckBox
+        android:id="@+id/checkDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/checkAge"
+        android:layout_below="@+id/checkAge"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="40dp"
+        android:text="@string/check_date" />
+
+    <CheckBox
+        android:id="@+id/checkYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/checkDate"
+        android:layout_below="@+id/checkMonth"
+        android:text="@string/check_year" /> -->
 
 </RelativeLayout>

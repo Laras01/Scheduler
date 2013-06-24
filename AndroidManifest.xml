@@ -57,7 +57,7 @@
         </activity>
         <activity android:name="com.krl109.scheduler.template.Template" >
         </activity>
-        <activity android:name="com.krl109.scheduler.tabLayout.NewTemplate" >
+        <activity android:name="com.krl109.scheduler.template.NewTemplate" >
         </activity>
 
         <!-- App slides right to reveal menu underneath -->

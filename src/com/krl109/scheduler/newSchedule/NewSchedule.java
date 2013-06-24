@@ -12,7 +12,10 @@ import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -38,12 +41,14 @@ public class NewSchedule extends Activity implements OnClickListener
 	private TimeListDatabaseHelper databaseHelper;
 	private long timemillis, timesent;
 	public static EditText recipient, datetime, content, freqTime;
-	Button btn_save, btn_cancel;
+	Button btn_save, btn_cancel, btn_data;
 	ImageButton btn_contact, btn_datetime, btn_template; 
 	Spinner frequency;
 	String[] freq = { "Once", "hourly", "daily", "weekly", "monthly", "yearly", "2 hourly", "4 hourly", "6 hourly",
 				      "8 hourly", "12 hourly", "2 weekly", "3 weekly", "2 monthly", "4 monthly", "6 monthly"};
-
+	String[] def_ch={" %%AGE%%", " %%DATE%%", " %%MONTH%%",
+	" %%YEAR%%"};
+	String message;
 	DatePicker date_schedule;
 	TimePicker time_schedule;
 	String[] data, dataRepetition;
@@ -62,13 +67,16 @@ public class NewSchedule extends Activity implements OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_schedule);
 		alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
-		
+		Intent intent = getIntent();
+		message = intent.getStringExtra("message");
 		databaseHelper = new TimeListDatabaseHelper(this);
 		
 		recipient = (EditText) findViewById(R.id.recipient);
 		datetime = (EditText) findViewById(R.id.datetime);
 		content = (EditText) findViewById(R.id.content);
 		freqTime = (EditText) findViewById(R.id.stopAfter);
+		
+		content.setText(message);
 		
 		data = new String[9];
 		time = new long[2];
@@ -85,6 +93,9 @@ public class NewSchedule extends Activity implements OnClickListener
 		
 		btn_contact = (ImageButton) findViewById(R.id.btn_contact);
 		btn_contact.setOnClickListener(this);
+		
+		btn_data = (Button) findViewById(R.id.btn_data_msg);
+		registerForContextMenu(btn_data);
 		
 		btn_datetime = (ImageButton) findViewById(R.id.btn_datetime);
 		btn_datetime.setOnClickListener(this);
@@ -188,7 +199,40 @@ public class NewSchedule extends Activity implements OnClickListener
 			}
 		});
 		
-	}	
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		// TODO Auto-generated method stub
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.setHeaderTitle("Choose The define Character");
+		menu.add(0, v.getId(), 0, "AGE");
+		menu.add(0, v.getId(), 0, "DATE");
+		menu.add(0, v.getId(), 0, "MONTH");
+		menu.add(0, v.getId(), 0, "YEAR");
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		if(item.getTitle().equals("AGE"))
+		{
+			content.append(def_ch[0]);
+
+		}else if(item.getTitle().equals("DATE"))
+		{
+			content.append(def_ch[1]);
+		}else if(item.getTitle().equals("MONTH"))
+		{
+			content.append(def_ch[2]);
+		}else if(item.getTitle().equals("YEAR"))
+		{
+			content.append(def_ch[3]);
+
+		}else {return false;}
+		return true;
+	}
 
 	@Override
 	public void onClick(View v) 
