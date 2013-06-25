@@ -178,6 +178,7 @@
         android:layout_alignRight="@+id/textView3"
         android:layout_toRightOf="@+id/btn_save"
         android:ems="10"
+        android:numeric="integer"
         android:textSize="13sp" >
 
         <requestFocus />

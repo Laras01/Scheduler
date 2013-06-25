@@ -56,7 +56,7 @@ public class Template extends Activity
 				templatesCategoryIdArray.add(cursor.getInt(cursor.getColumnIndex(TemplateDatabaseHelper.TEMPLATE_COLUMN_CATEGORY_ID)));
 			}while(cursor.moveToNext());
 		}else{
-			tv = new TextView(getBaseContext());
+			tv = (TextView) findViewById(R.id.noTemplate);
 			tv.setText("No Template(s) Yet.");
 
 		}
@@ -118,7 +118,10 @@ public class Template extends Activity
 		int itemId = templatesIdArray.get(info.position);
 		Log.d("item", itemName);
 		Log.d("item_id", ""+itemId);
-		helper.removeTemplate(itemId);
+		if(helper.removeTemplate(itemId)){
+			Template.this.finish();
+		    startActivity(getIntent());
+		}
 		//		  helper.removeTemplate(itemName);
 		return true;
 

@@ -40,7 +40,7 @@ public class NewTemplate extends Activity implements OnClickListener
 	RadioGroup radioDataGroup;
 
 	private String[] data;
-	public String name, message;
+	public String name, message, type;
 	int categoryID;
 	String[] def_ch={" %%AGE%%", " %%DATE%%", " %%MONTH%%",
 	" %%YEAR%%"};
@@ -147,52 +147,66 @@ public class NewTemplate extends Activity implements OnClickListener
 		data = new String[3];
 		if(v.equals(btn_save))
 		{
-			if(databaseHelper.checkTemplate(tmp_name.getText().toString())){
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				String message1 = "Change Your template's name";
-				String message2 = "Your template's name already exist.";
-				builder.setTitle("Alert");
-				builder.setMessage(message1 + "\n" + message2);
-				builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,int id) {
-						// if this button is clicked, close
-						// current activity
-						tmp_message.setText("");
-					}
-				  });
-				// create alert dialog
-				AlertDialog alertDialog = builder.create();
- 
-				// show it
-				alertDialog.show();
-			}
-			
-			//cek message content
-			if(message.contains("%%"))
-			{
-				openDialogCategory();
+			if( tmp_message.getText().toString().length() == 0 ){
+				tmp_message.setError( "Your message cannot empty!" );}
+			if( tmp_name.getText().toString().length() == 0 ){
+				tmp_name.setError( "You must naming your template!" );}
+			if(tmp_message.getText().toString().length() != 0 && tmp_name.getText().toString().length() != 0){
+				if(databaseHelper.checkTemplate(tmp_name.getText().toString())){
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					String message1 = "Change Your template's name";
+					String message2 = "Your template's name already exist.";
+					builder.setTitle("Alert");
+					builder.setMessage(message1 + "\n" + message2);
+					builder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							// if this button is clicked, close
+							// current activity
+							tmp_message.setText("");
+						}
+					});
+					// create alert dialog
+					AlertDialog alertDialog = builder.create();
+
+					// show it
+					alertDialog.show();
+				}
+
+				//cek message content
+				if(message.contains("%%"))
+				{
+					openDialogCategory();
 
 
-			}else{category= "Other";
-			if(databaseHelper.checkCategory(category)){
-				categoryID = databaseHelper.getCategoryId(category);
-				Log.d("category", ""+categoryID);
-			}else{
-				databaseHelper.saveTemplatetoCategory(category);
-				Log.d("category", category);
+				}else{category= "Other";
+				if(databaseHelper.checkCategory(category)){
+					categoryID = databaseHelper.getCategoryId(category);
+					Log.d("category", ""+categoryID);
+				}else{
+					databaseHelper.saveTemplatetoCategory(category);
+					Log.d("category", category);
+				}
+				}
+
+				if (typ.getText().toString().equals("Typical Message"))
+				{
+					type = "typical";
+				}else{type = "normal";}
+				//save
+				// addto list, to database template
+				data[0] = tmp_message.getText().toString();
+				data[1] = type;
+				data[2] = tmp_name.getText().toString();
+				databaseHelper.saveTemplatetoTemplate(categoryID, data);
+				NewTemplate.this.finish();
+				Intent iTemplate =  new Intent(this, Template.class);
+				startActivity(iTemplate);
+				for (int i=0;i<data.length;i++)
+				{
+					Log.d("data", data[i]);
+				}
+				Toast.makeText(this, "saved", Toast.LENGTH_LONG).show();
 			}
-			}
-			//save
-			// addto list, to database template
-						data[0] = tmp_message.getText().toString();
-						data[1] = typ.getText().toString();
-						data[2] = tmp_name.getText().toString();
-						databaseHelper.saveTemplatetoTemplate(categoryID, data);
-			for (int i=0;i<data.length;i++)
-			{
-				Log.d("data", data[i]);
-			}
-			Toast.makeText(this, "saved", Toast.LENGTH_LONG).show();
 		}
 		/*else if(v.equals(btn_datetime))
 		{

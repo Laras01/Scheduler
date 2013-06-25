@@ -11,6 +11,8 @@
 		<item>KoTA 109</item>
 	</string-array>
 	
+    <string name="regex_phone">^\\(?\\d{3}[\\)?|-]\\d{3}[- ]\\d{4}((\\s=?)(ext\\.|x)\\d{1,4})?$</string>
+	
     <string name="typical_type">Typical Message</string>
     <string name="normal_type">Normal Message</string>
     
