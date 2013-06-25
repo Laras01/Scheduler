@@ -96,6 +96,7 @@ public class TemplateDatabaseHelper {
 		if(cursor.moveToFirst()){
 			categoryId = cursor.getInt(cursor.getColumnIndex(CATEGORY_COLUMN_ID));
 		}
+		cursor.close();
 		return categoryId;
 	}
 
@@ -107,6 +108,7 @@ public class TemplateDatabaseHelper {
 		if(cursor.moveToFirst()){
 			category = cursor.getString(cursor.getColumnIndex(CATEGORY_COLUMN_TYPE));
 		}
+		cursor.close();
 		return category;
 	}
 	
@@ -130,6 +132,7 @@ public class TemplateDatabaseHelper {
 				message = cursor.getString(cursor.getColumnIndex(TEMPLATE_COLUMN_MESSAGE));
 			}
 		}
+		cursor.close();
 		return message;
 	}
 

@@ -8,6 +8,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.ContactsContract.Data;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -29,14 +31,17 @@ import com.krl109.scheduler.R;
 public class AndroidContactsSelector extends Activity implements OnClickListener, TextWatcher,OnItemClickListener {
 	final String LOG_TAG = "PocketMagic";
 	public static ArrayList<String> name = new ArrayList<String>();
+	public static ArrayList<String> idContact = new ArrayList<String>();
 	EditText m_etSearch;
 	ListView m_lvContacts;
 	
-	Cursor m_curContacts;
+	Cursor m_curContacts, cursor;
 	SimpleCursorAdapter m_slvAdapter;
 	
 	Intent intent;
 	StringBuilder sb;
+	
+	String number;
 
 	
     /** Called when the activity is first created. */
@@ -78,11 +83,40 @@ public class AndroidContactsSelector extends Activity implements OnClickListener
 		            if(checked.get(i)){
 		            	Cursor cursor = (Cursor) m_lvContacts.getItemAtPosition(i);
 		        		String szDisplayName = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
+		        		String szIdContact = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
 		        		name.add(szDisplayName);
+		        		idContact.add(szIdContact);
 		            }
 		        }
+		       
+		        if(idContact.size() > 0){
+		        	cursor = getContentResolver().query(Data.CONTENT_URI,
+						    new String[] {Data._ID, Phone.NUMBER, Phone.TYPE, Phone.LABEL},
+						    Data.CONTACT_ID + "=?" + " AND "
+						    + Data.MIMETYPE + "='" + Phone.CONTENT_ITEM_TYPE + "'",
+						    new String[] {String.valueOf(idContact.get(0))}, null);
+						cursor.moveToFirst();
+						number = cursor.getString(1);
+						sb.append(number);
+//		        	sb.append(idContact.get(0));
+					for(int i = 1; i < idContact.size(); i++){
+						sb.append(";");
+//						sb.append(idContact.get(i));
+						cursor = getContentResolver().query(Data.CONTENT_URI,
+							    new String[] {Data._ID, Phone.NUMBER, Phone.TYPE, Phone.LABEL},
+							    Data.CONTACT_ID + "=?" + " AND "
+							    + Data.MIMETYPE + "='" + Phone.CONTENT_ITEM_TYPE + "'",
+							    new String[] {String.valueOf(idContact.get(i))}, null);
+							cursor.moveToFirst();
+							number = cursor.getString(1);
+							sb.append(number);
+					}
+					//intent.putExtra("recipients", sb.toString());
+					NewSchedule.recipient.setText(sb.toString());
+					Log.d("recipient", sb.toString());
+		        }
 		        
-		        if(name.size() > 0){
+		        /*if(name.size() > 0){
 		        	sb.append(name.get(0));
 					for(int i = 1; i < name.size(); i++){
 						sb.append(";");
@@ -90,7 +124,7 @@ public class AndroidContactsSelector extends Activity implements OnClickListener
 					}
 					//intent.putExtra("recipients", sb.toString());
 					NewSchedule.recipient.setText(sb.toString());
-		        }
+		        }*/
 										        
 		        //intent.putStringArrayListExtra("recipients", name);
 				

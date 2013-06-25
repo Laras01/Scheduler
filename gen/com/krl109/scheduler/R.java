@@ -128,7 +128,7 @@ containing a value of this type.
         public static final int View02=0x7f0a0008;
         public static final int add_template=0x7f0a002b;
         public static final int addrecipient=0x7f0a0026;
-        public static final int alert=0x7f0a005b;
+        public static final int alert=0x7f0a005c;
         public static final int app=0x7f0a004d;
         public static final int btn_alert_snooze=0x7f0a0048;
         public static final int btn_alert_sound=0x7f0a0049;
@@ -149,16 +149,16 @@ containing a value of this type.
         public static final int button1=0x7f0a003b;
         public static final int carousel=0x7f0a0035;
         public static final int categoryTxt=0x7f0a0043;
-        public static final int clear_all=0x7f0a0056;
+        public static final int clear_all=0x7f0a0057;
         public static final int content=0x7f0a001f;
         public static final int contentMessage=0x7f0a0034;
         public static final int datePicker1=0x7f0a003a;
         public static final int dateTimeSch=0x7f0a0032;
         public static final int datetime=0x7f0a0027;
-        public static final int edit=0x7f0a0059;
+        public static final int edit=0x7f0a005a;
         public static final int editText1=0x7f0a0037;
         public static final int editText2=0x7f0a0038;
-        public static final int forward=0x7f0a0054;
+        public static final int forward=0x7f0a0055;
         public static final int frequency=0x7f0a0018;
         public static final int history=0x7f0a002c;
         public static final int icon=0x7f0a0031;
@@ -180,19 +180,20 @@ containing a value of this type.
         public static final int min25=0x7f0a0005;
         public static final int min30=0x7f0a0006;
         public static final int min5=0x7f0a0001;
-        public static final int notification=0x7f0a005c;
-        public static final int open=0x7f0a0058;
+        public static final int noTemplate=0x7f0a0053;
+        public static final int notification=0x7f0a005d;
+        public static final int open=0x7f0a0059;
         public static final int overlay=0x7f0a004f;
-        public static final int paused=0x7f0a005a;
+        public static final int paused=0x7f0a005b;
         public static final int radioAnniv=0x7f0a0010;
         public static final int radioBirthday=0x7f0a000f;
         public static final int radioDataCategory=0x7f0a000d;
         public static final int recipient=0x7f0a001d;
         public static final int recipientNumbers=0x7f0a0033;
-        public static final int remove=0x7f0a005d;
-        public static final int removed=0x7f0a0055;
-        public static final int resend=0x7f0a0053;
-        public static final int resume=0x7f0a0057;
+        public static final int remove=0x7f0a005e;
+        public static final int removed=0x7f0a0056;
+        public static final int resend=0x7f0a0054;
+        public static final int resume=0x7f0a0058;
         public static final int search=0x7f0a0013;
         public static final int sent_at=0x7f0a001b;
         public static final int slideMenu=0x7f0a0045;
@@ -255,19 +256,20 @@ containing a value of this type.
     }
     public static final class string {
         public static final int action_settings=0x7f070001;
-        public static final int alert=0x7f070006;
+        public static final int alert=0x7f070007;
         public static final int app_name=0x7f070000;
-        public static final int button_cancel=0x7f07000d;
-        public static final int button_ok=0x7f07000b;
-        public static final int button_save=0x7f07000c;
+        public static final int button_cancel=0x7f07000e;
+        public static final int button_ok=0x7f07000c;
+        public static final int button_save=0x7f07000d;
         public static final int hello_world=0x7f070002;
-        public static final int image=0x7f070005;
-        public static final int menubutton=0x7f070008;
-        public static final int normal_type=0x7f070004;
-        public static final int notification=0x7f070007;
-        public static final int radio_anniv=0x7f07000a;
-        public static final int radio_birthday=0x7f070009;
-        public static final int typical_type=0x7f070003;
+        public static final int image=0x7f070006;
+        public static final int menubutton=0x7f070009;
+        public static final int normal_type=0x7f070005;
+        public static final int notification=0x7f070008;
+        public static final int radio_anniv=0x7f07000b;
+        public static final int radio_birthday=0x7f07000a;
+        public static final int regex_phone=0x7f070003;
+        public static final int typical_type=0x7f070004;
     }
     public static final class style {
         /** 
