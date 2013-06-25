@@ -184,7 +184,7 @@ public class NewSchedule extends Activity implements OnClickListener
 				
 				/*Toast t = Toast.makeText(NewSchedule.this, "" + schedule.getScheduleId(), Toast.LENGTH_LONG);
 				t.show();*/
-				Toast t = Toast.makeText(NewSchedule.this, "Scheduled", Toast.LENGTH_SHORT);
+				Toast t = Toast.makeText(NewSchedule.this, data[1], Toast.LENGTH_SHORT);
 				t.show();
 			}
 		});
