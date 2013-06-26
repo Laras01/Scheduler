@@ -68,6 +68,7 @@
         android:layout_alignLeft="@+id/recipient"
         android:layout_alignRight="@+id/recipient"
         android:ems="10"
+        android:freezesText="true"
         android:hint="Date and time"
         android:textSize="13sp" />
     

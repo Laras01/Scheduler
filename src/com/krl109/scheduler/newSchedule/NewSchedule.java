@@ -38,20 +38,27 @@ import com.krl109.scheduler.main.MainActivity;
 import com.krl109.scheduler.tabLayout.Schedule;
 import com.krl109.scheduler.template.Template;
 
-public class NewSchedule extends Activity implements OnClickListener
-{
+public class NewSchedule extends Activity implements OnClickListener {
 	protected static final int CONTACT_PICKER_RESULT = 1001;
 	private TimeListDatabaseHelper databaseHelper;
 	private long timemillis, timesent;
 	public static EditText recipient, datetime, content, freqTime;
 	Button btn_save, btn_cancel, btn_data;
-	ImageButton btn_contact, btn_datetime, btn_template; 
+	ImageButton btn_contact, btn_datetime, btn_template;
 	Spinner frequency;
+<<<<<<< HEAD
 	String[] freq = { "Once", "hourly", "daily", "weekly", "monthly", "yearly", "2 hourly", "4 hourly", "6 hourly",
 			"8 hourly", "12 hourly", "2 weekly", "3 weekly", "2 monthly", "4 monthly", "6 monthly"};
 	String[] def_ch={" %%AGE%%", " %%DATE%%", " %%MONTH%%",
 	" %%YEAR%%"};
 	String message, numer;
+=======
+	String[] freq = { "Once", "hourly", "daily", "weekly", "monthly", "yearly",
+			"2 hourly", "4 hourly", "6 hourly", "8 hourly", "12 hourly",
+			"2 weekly", "3 weekly", "2 monthly", "4 monthly", "6 monthly" };
+	String[] def_ch = { " %%AGE%%", " %%DATE%%", " %%MONTH%%", " %%YEAR%%" };
+	String message;
+>>>>>>> 69bbe4c8756c732ef6436e58b32fde245273887c
 	DatePicker date_schedule;
 	TimePicker time_schedule;
 	String[] data, dataRepetition;
@@ -63,13 +70,15 @@ public class NewSchedule extends Activity implements OnClickListener
 	AlarmManager alarm;
 
 	public static final int INVALID_TEXT_COLOR = Color.RED;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 69bbe4c8756c732ef6436e58b32fde245273887c
 
-	//ArrayList<Long> messageId = new ArrayList<Long>();
+	// ArrayList<Long> messageId = new ArrayList<Long>();
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) 
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_schedule);
 		alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -87,7 +96,8 @@ public class NewSchedule extends Activity implements OnClickListener
 		recipient.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
 				// TODO Auto-generated method stub
 
 			}
@@ -101,6 +111,7 @@ public class NewSchedule extends Activity implements OnClickListener
 
 			@Override
 			public void afterTextChanged(Editable s) {
+<<<<<<< HEAD
 				// TODO Auto-generated method stub	
 					StringTokenizer st = new StringTokenizer(s.toString(),";");
 					while (st.hasMoreElements())
@@ -108,6 +119,17 @@ public class NewSchedule extends Activity implements OnClickListener
 						numer = (String) st.nextElement();
 						validation(numer);
 					}
+=======
+				try {
+					int num = Integer.parseInt(s.toString());
+					// Log.i("",num+" is a number");
+					recipient.setTextColor(Color.BLACK);
+				} catch (NumberFormatException e) {
+					// Log.i("",text+"is not a number");
+					recipient.setTextColor(INVALID_TEXT_COLOR);
+					recipient.setError("Must Numeric !");
+				}
+>>>>>>> 69bbe4c8756c732ef6436e58b32fde245273887c
 			}
 		});
 
@@ -115,31 +137,31 @@ public class NewSchedule extends Activity implements OnClickListener
 		time = new long[2];
 		dataRepetition = new String[3];
 
-		//menampilkan dropdown pilihan frekuensi pengiriman
-		//show dropdown frequency options of send
+		// menampilkan dropdown pilihan frekuensi pengiriman
+		// show dropdown frequency options of send
 		frequency = (Spinner) findViewById(R.id.frequency);
-		ArrayAdapter<String> list = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, freq);
+		ArrayAdapter<String> list = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, freq);
 		list.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		frequency.setAdapter(list);
 
 		frequency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) { 
-				if(frequency.getSelectedItem().toString().equals("Once"))
-				{
-					freqTime.setText("1");
+			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+				if (frequency.getSelectedItem().toString().equals("Once")) {
+					freqTime.setText("1"); 
 					freqTime.setFocusable(false);
-				}else{
+				} 
+				else {
 					freqTime.setText("");
 					freqTime.setFocusableInTouchMode(true);
 				}
-			} 
-
+			}
 			public void onNothingSelected(AdapterView<?> adapterView) {
 				return;
-			} 
-		}); 
+			}
+		});
 
-		//Toast.makeText(New_schedule.this, freq[frequency.getSelectedItemPosition()],Toast.LENGTH_LONG).show();
+		// Toast.makeText(New_schedule.this,
+		// freq[frequency.getSelectedItemPosition()],Toast.LENGTH_LONG).show();
 
 		btn_contact = (ImageButton) findViewById(R.id.btn_contact);
 		btn_contact.setOnClickListener(this);
@@ -154,6 +176,7 @@ public class NewSchedule extends Activity implements OnClickListener
 		btn_template.setOnClickListener(this);
 
 		btn_save = (Button) findViewById(R.id.btn_save);
+<<<<<<< HEAD
 		btn_save.setOnClickListener(new Button.OnClickListener() 
 		{
 			public void onClick(View v) 
@@ -199,6 +222,67 @@ public class NewSchedule extends Activity implements OnClickListener
 					schedule = new Schedule(timemillis, timesent, data);
 
 					//check the type of message, whether dynamic or static message -> contain %%y, etc
+=======
+		btn_save.setOnClickListener(new Button.OnClickListener() {
+			public void onClick(View v) {
+				// untuk memproses penyimpanan schedule baru
+				/*
+				 * String toastMessage = "Frequency 	   : " +
+				 * freq[frequency.getSelectedItemPosition()] + "\n" +
+				 * "Content       : " + content.getText().toString();
+				 */
+
+				/*
+				 * Toast t = Toast.makeText(NewSchedule.this, toastMessage,
+				 * Toast.LENGTH_LONG); t.show();
+				 */
+
+				if (content.getText().toString().length() == 0) {
+					content.setError("Your message cannot empty!");
+				}
+
+				if (datetime.getText().toString().length() == 0) {
+					datetime.setError("Your Date and Time is required!");
+				}
+
+				if (recipient.getText().toString().length() == 0) {
+					recipient.setError("Recipient is required!");
+				}
+
+				if (content.getText().toString().length() != 0
+						&& datetime.getText().toString().length() != 0
+						&& recipient.getText().toString().length() != 0) {
+					data[0] = datetime.getText().toString(); // datetime
+					data[1] = recipient.getText().toString(); // recipient
+					data[2] = content.getText().toString(); // message
+					data[3] = freq[frequency.getSelectedItemPosition()]
+							.toString(); // frequency -> once | hourly | etc
+					data[4] = freqTime.getText().toString(); // remaining
+					data[5] = "scheduled"; // status
+					data[6] = "2";// freqtimes.frequencyTimes(frequency);
+									// //freqtimes // yang pake formula (belum
+									// dibuat)
+
+					// check the timemillis before save to database via
+					// TimeListDatabaseHelper
+					timemillis = databaseHelper
+							.addTimemillisFromTime(timemillis);
+
+					/*
+					 * Toast.makeText(getApplicationContext(), "Schedule saved",
+					 * Toast.LENGTH_SHORT).show(); Intent create_schedule = new
+					 * Intent(NewSchedule.this, AlarmManageHelper.class);
+					 * create_schedule.putExtra("timemillist", timemillis);
+					 * startActivity(create_schedule);
+					 * 
+					 * //save to database via TimeListDatabaseHelper8
+					 * databaseHelper.saveTimeRecord(timemillis, data);
+					 */
+					schedule = new Schedule(timemillis, timesent, data);
+
+					// check the type of message, whether dynamic or static
+					// message -> contain %%y, etc
+>>>>>>> 69bbe4c8756c732ef6436e58b32fde245273887c
 					schedule.setMessageType(schedule.contentMessages);
 					data[7] = schedule.getType();
 
@@ -209,6 +293,7 @@ public class NewSchedule extends Activity implements OnClickListener
 					databaseHelper.saveScheduleToContact(schedule.getRecipientNumbers());
 					databaseHelper.saveScheduleToRecipient(data[1], schedule.getScheduleId());
 
+<<<<<<< HEAD
 					/*Toast t = Toast.makeText(NewSchedule.this, "" + Integer.parseInt(data[4]), Toast.LENGTH_LONG);
 				t.show();*/
 
@@ -221,11 +306,28 @@ public class NewSchedule extends Activity implements OnClickListener
 						dataRepetition[0] = data[3]; //frequency
 						dataRepetition[1] = schedule.getScheduleId(); //messageId
 						dataRepetition[2] = data[4]; //remaining
+=======
+					/*
+					 * Toast t = Toast.makeText(NewSchedule.this, "" +
+					 * Integer.parseInt(data[4]), Toast.LENGTH_LONG); t.show();
+					 */
+
+					// messageId.add(timesent);
+
+					// check whether schedule has repetition or not
+					Intent intent = new Intent(NewSchedule.this, SMSActivity.class);
+					PendingIntent pending = PendingIntent.getActivity(NewSchedule.this, (int) timemillis, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+					if (data[3] != "Once") {
+						dataRepetition[0] = data[3]; // frequency
+						dataRepetition[1] = schedule.getScheduleId(); // messageId
+						dataRepetition[2] = data[4]; // remaining
+>>>>>>> 69bbe4c8756c732ef6436e58b32fde245273887c
 
 						time[0] = timemillis;
 						time[1] = timesent;
 
 						freqtimes.repetition(pending, alarm, databaseHelper, dataRepetition, time);
+<<<<<<< HEAD
 					}
 					else{
 						alarm.set(AlarmManager.RTC_WAKEUP, timesent, pending);
@@ -248,16 +350,50 @@ public class NewSchedule extends Activity implements OnClickListener
 				t.show();*/
 					//						Toast t = Toast.makeText(NewSchedule.this, "Scheduled", Toast.LENGTH_SHORT);
 					Toast t = Toast.makeText(NewSchedule.this, data[1], Toast.LENGTH_SHORT);
+=======
+					} 
+					else {
+						alarm.set(AlarmManager.RTC_WAKEUP, timesent, pending);
+					}
+					// intent.putExtra("timemillis", timesent);
+					// intent.putExtra("timemillisas", messageId);
+					/*
+					 * PendingIntent pending =
+					 * PendingIntent.getActivity(NewSchedule.this, (int)
+					 * timemillis, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+					 * alarm.set(AlarmManager.RTC_WAKEUP, timesent, pending);
+					 */
+					/*
+					 * Toast t = Toast.makeText(NewSchedule.this, "" +
+					 * schedule.getTimesent(), Toast.LENGTH_SHORT); t.show();
+					 */
+
+					/*
+					 * Intent intent1 = new Intent(AlarmManageHelper.this,
+					 * SMSActivity.class); intent1.putExtra("phoneNumber",
+					 * schedule.recipient); intent1.putExtra("message",
+					 * schedule.message); PendingIntent pending =
+					 * PendingIntent.getActivity(AlarmManageHelper.this, (int)
+					 * timemillist, intent1, PendingIntent.FLAG_CANCEL_CURRENT);
+					 * AlarmManager alarm = (AlarmManager)
+					 * getSystemService(ALARM_SERVICE);
+					 * alarm.set(AlarmManager.RTC_WAKEUP, timemillist, pending);
+					 */
+
+					/*
+					 * Toast t = Toast.makeText(NewSchedule.this, "" +
+					 * schedule.getScheduleId(), Toast.LENGTH_LONG); t.show();
+					 */
+					Toast t = Toast.makeText(NewSchedule.this, "Scheduled", Toast.LENGTH_SHORT);
+>>>>>>> 69bbe4c8756c732ef6436e58b32fde245273887c
 					t.show();
 				}
 			}
 		});
 
 		btn_cancel = (Button) findViewById(R.id.btn_cancel);
-		btn_cancel.setOnClickListener(new Button.OnClickListener() 
-		{
-			public void onClick(View v) 
-			{
+		btn_cancel.setOnClickListener(new Button.OnClickListener() {
+			public void onClick(View v) {
 				Intent cancel = new Intent(NewSchedule.this, MainActivity.class);
 				startActivity(cancel);
 			}
@@ -288,44 +424,40 @@ public class NewSchedule extends Activity implements OnClickListener
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
-		if(item.getTitle().equals("AGE"))
-		{
+		if (item.getTitle().equals("AGE")) {
 			content.append(def_ch[0]);
-
-		}else if(item.getTitle().equals("DATE"))
-		{
+		} 
+		else if (item.getTitle().equals("DATE")) {
 			content.append(def_ch[1]);
-		}else if(item.getTitle().equals("MONTH"))
-		{
+		} 
+		else if (item.getTitle().equals("MONTH")) {
 			content.append(def_ch[2]);
-		}else if(item.getTitle().equals("YEAR"))
-		{
+		} 
+		else if (item.getTitle().equals("YEAR")) {
 			content.append(def_ch[3]);
 
-		}else {return false;}
+		} 
+		else {
+			return false;
+		}
 		return true;
 	}
 
 	@Override
-	public void onClick(View v) 
-	{
-		if(v.equals(btn_contact))
-		{
+	public void onClick(View v) {
+		if (v.equals(btn_contact)) {
 			doLaunchContactPicker(v);
-		}
-		else if(v.equals(btn_datetime))
-		{
+		} 
+		else if (v.equals(btn_datetime)) {
 			datetimeDialog();
-		}
-		else if(v.equals(btn_template))
-		{
+		} 
+		else if (v.equals(btn_template)) {
 			Intent temp = new Intent(NewSchedule.this, Template.class);
 			startActivity(temp);
 		}
 	}
 
-	protected void datetimeDialog() 
-	{
+	protected void datetimeDialog() {
 		final Dialog d = new Dialog(this);
 		d.setTitle("Set Date and Time");
 		d.setContentView(R.layout.set_datetime);
@@ -335,55 +467,46 @@ public class NewSchedule extends Activity implements OnClickListener
 
 		date_schedule = (DatePicker) d.findViewById(R.id.datePicker1);
 		time_schedule = (TimePicker) d.findViewById(R.id.timePicker1);
-		//time_schedule.setIs24HourView(true); //untuk menampilkan time picker dalam hitungan 24 jam
-
+		// time_schedule.setIs24HourView(true); //untuk menampilkan time picker
+		// dalam hitungan 24 jam
 
 		btn_done = (Button) d.findViewById(R.id.btn_done);
-		btn_done.setOnClickListener(new Button.OnClickListener() 
-		{
+		btn_done.setOnClickListener(new Button.OnClickListener() {
 			@Override
-			public void onClick(View v) 
-			{
+			public void onClick(View v) {
 				Calendar calendar = Calendar.getInstance();
 				calendar.set(Calendar.SECOND, 0);
 				calendar.set(Calendar.MILLISECOND, 0);
-				calendar.set(date_schedule.getYear(), date_schedule.getMonth(), date_schedule.getDayOfMonth(), 
-						time_schedule.getCurrentHour(), time_schedule.getCurrentMinute());
+				calendar.set(date_schedule.getYear(), date_schedule.getMonth(), date_schedule.getDayOfMonth(), time_schedule.getCurrentHour(), time_schedule.getCurrentMinute());
 				timemillis = calendar.getTimeInMillis();
 				timesent = calendar.getTimeInMillis();
-				//mengambil tanggal dari datepicker
+				// mengambil tanggal dari datepicker
 				int day = date_schedule.getDayOfMonth();
 				int month = date_schedule.getMonth() + 1;
 				int year = date_schedule.getYear();
-				String date = day + "/" + month + "/" + year; 
+				String date = day + "/" + month + "/" + year;
 
-				//mengambil waktu dari time picker
+				// mengambil waktu dari time picker
 				int hour = time_schedule.getCurrentHour();
 				int minute = time_schedule.getCurrentMinute();
 				String time = hour + ":" + minute;
 
 				d.cancel();
-				//datetime = (EditText) findViewById(R.id.datetime);
+				// datetime = (EditText) findViewById(R.id.datetime);
 				datetime.setText(date + " ; " + time);
 			}
 		});
 
 		btn_cancel = (Button) d.findViewById(R.id.btn_cancel);
-		btn_cancel.setOnClickListener(new Button.OnClickListener() 
-		{
+		btn_cancel.setOnClickListener(new Button.OnClickListener() {
 			@Override
-			public void onClick(View v) 
-			{
+			public void onClick(View v) {
 				d.cancel();
 			}
 		});
 	}
 
-	public void doLaunchContactPicker(View v)
-	{
-		/*Intent contactPicker = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
-		startActivityForResult(contactPicker, CONTACT_PICKER_RESULT);*/
-
+	public void doLaunchContactPicker(View v) {
 		Intent contactPicker = new Intent(NewSchedule.this, AndroidContactsSelector.class);
 		startActivity(contactPicker);
 	}

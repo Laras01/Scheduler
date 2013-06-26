@@ -176,7 +176,7 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 				+ MESSAGE_COLUMN_FREQUENCY + " STRING)");
 		
 		database.execSQL("CREATE TABLE " + TABLE_CONTACT_NUMBER + "("
-				+ CONTACT_COLUMN_NUMBER + " STRING PRIMARY KEY)");
+				+ CONTACT_COLUMN_NUMBER + " TEXT PRIMARY KEY)");
 		
 		database.execSQL("CREATE TABLE " + TABLE_TIME + "("
 				+ TIME_COLUMN_TIMEMILLIS + " STRING PRIMARY KEY, " 

@@ -123,7 +123,7 @@ public class NewTemplate extends Activity implements OnClickListener
 		if(item.getTitle().equals("AGE"))
 		{
 			tmp_message.append(def_ch[0]);
-			//			tmp_message.getText().replace(Math.min(start, end), Math.max(start, end), def_ch[0], 0, def_ch[0].length());
+			//tmp_message.getText().replace(Math.min(start, end), Math.max(start, end), def_ch[0], 0, def_ch[0].length());
 
 		}else if(item.getTitle().equals("DATE"))
 		{
@@ -245,13 +245,6 @@ public class NewTemplate extends Activity implements OnClickListener
 			startActivity(temp);
 		}
 	}
-
-
-
-
-
-
-
 
 	private void openDialogCategory()
 	{
