@@ -58,7 +58,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 class DatabaseOpenHelper extends SQLiteOpenHelper {
 
 	private static final int DATABASE_VERSION = 1;
-	private static final String DATABASE_NAME = "scheduler-krl12.db";
+	private static final String DATABASE_NAME = "scheduler-krl13.db";
 	private static final String TABLE_MESSAGE = "message";
 	private static final String TABLE_NORMAL_MESSAGE = "normal_message";
 	private static final String TABLE_TYPICAL_MESSAGE = "typical_message";
@@ -188,7 +188,7 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 		database.execSQL("CREATE TABLE " + TABLE_RECIPIENT + "("
 				+ RECIPIENT_COLUMN_ID + " INTEGER PRIMARY KEY, "
 				+ RECIPIENT_COLUMN_MESSAGE_ID + " INTEGER, "
-				+ RECIPIENT_COLUMN_NUMBER + " STRING, " 
+				+ RECIPIENT_COLUMN_NUMBER + " TEXT, " 
 				+ RECIPIENT_COLUMN_STATUS + " STRING, "
 				+ "FOREIGN KEY (" + RECIPIENT_COLUMN_MESSAGE_ID + ") REFERENCES " + TABLE_MESSAGE + " (" + MESSAGE_COLUMN_ID + "), "
 				+ "FOREIGN KEY (" + RECIPIENT_COLUMN_NUMBER + ") REFERENCES " + TABLE_CONTACT_NUMBER + " (" + CONTACT_COLUMN_NUMBER + "))");

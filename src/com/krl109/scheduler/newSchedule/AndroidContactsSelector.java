@@ -113,6 +113,7 @@ public class AndroidContactsSelector extends Activity implements OnClickListener
 					}
 					//intent.putExtra("recipients", sb.toString());
 					NewSchedule.recipient.setText(sb.toString());
+					idContact.clear();
 					Log.d("recipient", sb.toString());
 		        }
 		        

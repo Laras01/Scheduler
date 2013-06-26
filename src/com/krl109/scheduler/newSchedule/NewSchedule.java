@@ -51,7 +51,7 @@ public class NewSchedule extends Activity implements OnClickListener
 			"8 hourly", "12 hourly", "2 weekly", "3 weekly", "2 monthly", "4 monthly", "6 monthly"};
 	String[] def_ch={" %%AGE%%", " %%DATE%%", " %%MONTH%%",
 	" %%YEAR%%"};
-	String message;
+	String message, numer;
 	DatePicker date_schedule;
 	TimePicker time_schedule;
 	String[] data, dataRepetition;
@@ -61,9 +61,9 @@ public class NewSchedule extends Activity implements OnClickListener
 	Schedule schedule;
 
 	AlarmManager alarm;
-	
+
 	public static final int INVALID_TEXT_COLOR = Color.RED;
-	
+
 
 	//ArrayList<Long> messageId = new ArrayList<Long>();
 
@@ -85,35 +85,28 @@ public class NewSchedule extends Activity implements OnClickListener
 		datetime.setFocusable(false);
 		content.setText(message);
 		recipient.addTextChangedListener(new TextWatcher() {
-			
+
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-//				String regex = getResources().getString(R.string.regex_phone);
-//				if (!Pattern.matches(regex, s)) {
-//					recipient.setTextColor(INVALID_TEXT_COLOR);
-//				   }
-				try {
-					   int num = Integer.parseInt(s.toString());
-//					   Log.i("",num+" is a number");
-					   recipient.setTextColor(Color.BLACK);
-					} catch (NumberFormatException e) {
-//					   Log.i("",text+"is not a number");
-						recipient.setTextColor(INVALID_TEXT_COLOR);
-						recipient.setError("Must Numeric !");
+				// TODO Auto-generated method stub	
+					StringTokenizer st = new StringTokenizer(s.toString(),";");
+					while (st.hasMoreElements())
+					{
+						numer = (String) st.nextElement();
+						validation(numer);
 					}
 			}
 		});
@@ -172,90 +165,91 @@ public class NewSchedule extends Activity implements OnClickListener
 
 				/*Toast t = Toast.makeText(NewSchedule.this, toastMessage, Toast.LENGTH_LONG);
 				t.show();*/
-				
+
 				if( content.getText().toString().length() == 0 ){
 					content.setError( "Your message cannot empty!" );}
 
 				if( datetime.getText().toString().length() == 0 ){
 					datetime.setError( "Your Date and Time is required!" );}
-				
+
 				if( recipient.getText().toString().length() == 0 ){
 					recipient.setError( "Recipient is required!" );}
-				
+
 				if(content.getText().toString().length() != 0 && datetime.getText().toString().length() != 0 
 						&& recipient.getText().toString().length() != 0){
 
-						data[0] = datetime.getText().toString(); //datetime
-						data[1] = recipient.getText().toString(); //recipient
-						data[2] = content.getText().toString(); //message
-						data[3] = freq[frequency.getSelectedItemPosition()].toString(); //frequency -> once | hourly | etc
-						data[4] = freqTime.getText().toString(); //remaining
-						data[5] = "scheduled"; //status
-						data[6] = "2";//freqtimes.frequencyTimes(frequency); //freqtimes // yang pake formula (belum dibuat)
+					data[0] = datetime.getText().toString(); //datetime
+					data[1] = recipient.getText().toString(); //recipient
+					data[2] = content.getText().toString(); //message
+					data[3] = freq[frequency.getSelectedItemPosition()].toString(); //frequency -> once | hourly | etc
+					data[4] = freqTime.getText().toString(); //remaining
+					data[5] = "scheduled"; //status
+					data[6] = "2";//freqtimes.frequencyTimes(frequency); //freqtimes // yang pake formula (belum dibuat)
 
-						//check the timemillis before save to database via TimeListDatabaseHelper
-						timemillis = databaseHelper.addTimemillisFromTime(timemillis);
+					//check the timemillis before save to database via TimeListDatabaseHelper
+					timemillis = databaseHelper.addTimemillisFromTime(timemillis);
 
-						/*Toast.makeText(getApplicationContext(), "Schedule saved", Toast.LENGTH_SHORT).show();
+					/*Toast.makeText(getApplicationContext(), "Schedule saved", Toast.LENGTH_SHORT).show();
 				Intent create_schedule = new Intent(NewSchedule.this, AlarmManageHelper.class);
 				create_schedule.putExtra("timemillist", timemillis);
 		    	startActivity(create_schedule);
 
 		    	//save to database via TimeListDatabaseHelper8
 				databaseHelper.saveTimeRecord(timemillis, data);*/
-						schedule = new Schedule(timemillis, timesent, data);
+					schedule = new Schedule(timemillis, timesent, data);
 
-						//check the type of message, whether dynamic or static message -> contain %%y, etc
-						schedule.setMessageType(schedule.contentMessages);
-						data[7] = schedule.getType();
+					//check the type of message, whether dynamic or static message -> contain %%y, etc
+					schedule.setMessageType(schedule.contentMessages);
+					data[7] = schedule.getType();
 
-						databaseHelper.saveScheduletoMessage(schedule.getTimemillis(), data);
-						databaseHelper.setMessageIdFromMessage(timemillis);
-						databaseHelper.saveScheduleToType(data[7], schedule.getContentMessages(), schedule.getScheduleId());
-						databaseHelper.saveScheduleToTime(schedule.getTimemillis(), timesent, schedule.getScheduleId());
-						databaseHelper.saveScheduleToContact(schedule.getRecipientNumbers());
-						databaseHelper.saveScheduleToRecipient(data[1], schedule.getScheduleId());
+					databaseHelper.saveScheduletoMessage(schedule.getTimemillis(), data);
+					databaseHelper.setMessageIdFromMessage(timemillis);
+					databaseHelper.saveScheduleToType(data[7], schedule.getContentMessages(), schedule.getScheduleId());
+					databaseHelper.saveScheduleToTime(schedule.getTimemillis(), timesent, schedule.getScheduleId());
+					databaseHelper.saveScheduleToContact(schedule.getRecipientNumbers());
+					databaseHelper.saveScheduleToRecipient(data[1], schedule.getScheduleId());
 
-						/*Toast t = Toast.makeText(NewSchedule.this, "" + Integer.parseInt(data[4]), Toast.LENGTH_LONG);
+					/*Toast t = Toast.makeText(NewSchedule.this, "" + Integer.parseInt(data[4]), Toast.LENGTH_LONG);
 				t.show();*/
 
-						//messageId.add(timesent);
+					//messageId.add(timesent);
 
-						//check whether schedule has repetition or not
-						Intent intent = new Intent(NewSchedule.this, SMSActivity.class);
-						PendingIntent pending = PendingIntent.getActivity(NewSchedule.this, (int) timemillis, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-						if(data[3] != "Once"){
-							dataRepetition[0] = data[3]; //frequency
-							dataRepetition[1] = schedule.getScheduleId(); //messageId
-							dataRepetition[2] = data[4]; //remaining
+					//check whether schedule has repetition or not
+					Intent intent = new Intent(NewSchedule.this, SMSActivity.class);
+					PendingIntent pending = PendingIntent.getActivity(NewSchedule.this, (int) timemillis, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+					if(data[3] != "Once"){
+						dataRepetition[0] = data[3]; //frequency
+						dataRepetition[1] = schedule.getScheduleId(); //messageId
+						dataRepetition[2] = data[4]; //remaining
 
-							time[0] = timemillis;
-							time[1] = timesent;
+						time[0] = timemillis;
+						time[1] = timesent;
 
-							freqtimes.repetition(pending, alarm, databaseHelper, dataRepetition, time);
-						}
-						else{
-							alarm.set(AlarmManager.RTC_WAKEUP, timesent, pending);
-						}
-						//intent.putExtra("timemillis", timesent);
-						//intent.putExtra("timemillisas", messageId);
-						/*PendingIntent pending = PendingIntent.getActivity(NewSchedule.this, (int) timemillis, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+						freqtimes.repetition(pending, alarm, databaseHelper, dataRepetition, time);
+					}
+					else{
+						alarm.set(AlarmManager.RTC_WAKEUP, timesent, pending);
+					}
+					//intent.putExtra("timemillis", timesent);
+					//intent.putExtra("timemillisas", messageId);
+					/*PendingIntent pending = PendingIntent.getActivity(NewSchedule.this, (int) timemillis, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 				alarm.set(AlarmManager.RTC_WAKEUP, timesent, pending);*/
-						/*Toast t = Toast.makeText(NewSchedule.this, "" + schedule.getTimesent(), Toast.LENGTH_SHORT);
+					/*Toast t = Toast.makeText(NewSchedule.this, "" + schedule.getTimesent(), Toast.LENGTH_SHORT);
 				t.show();*/
 
-						/*Intent intent1 = new Intent(AlarmManageHelper.this, SMSActivity.class);
+					/*Intent intent1 = new Intent(AlarmManageHelper.this, SMSActivity.class);
 				intent1.putExtra("phoneNumber", schedule.recipient);
 				intent1.putExtra("message", schedule.message);
 				PendingIntent pending = PendingIntent.getActivity(AlarmManageHelper.this, (int) timemillist, intent1, PendingIntent.FLAG_CANCEL_CURRENT);
 				AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
 				alarm.set(AlarmManager.RTC_WAKEUP, timemillist, pending);*/
 
-						/*Toast t = Toast.makeText(NewSchedule.this, "" + schedule.getScheduleId(), Toast.LENGTH_LONG);
+					/*Toast t = Toast.makeText(NewSchedule.this, "" + schedule.getScheduleId(), Toast.LENGTH_LONG);
 				t.show();*/
-						Toast t = Toast.makeText(NewSchedule.this, "Scheduled", Toast.LENGTH_SHORT);
-						t.show();
-					}
+					//						Toast t = Toast.makeText(NewSchedule.this, "Scheduled", Toast.LENGTH_SHORT);
+					Toast t = Toast.makeText(NewSchedule.this, data[1], Toast.LENGTH_SHORT);
+					t.show();
+				}
 			}
 		});
 
@@ -269,6 +263,14 @@ public class NewSchedule extends Activity implements OnClickListener
 			}
 		});
 
+	}
+	
+	public void validation(String s)
+	{
+		String regex = getResources().getString(R.string.regex_phone);
+		if (!Pattern.matches(regex, s)) {
+			recipient.setTextColor(INVALID_TEXT_COLOR);
+		}else{recipient.setTextColor(Color.BLACK);}
 	}
 
 	@Override

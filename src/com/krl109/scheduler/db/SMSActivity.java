@@ -64,7 +64,8 @@ public class SMSActivity extends Activity {
 				cursorRecipients = databaseHelper.getRecipientsFromRecipient(msgId);
 				while(cursorRecipients.moveToNext()){
 					sendSMS(cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")), message);
-					//Toast.makeText(getApplicationContext(), "p=" + cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")), Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "p=" + cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")), Toast.LENGTH_SHORT).show();
+//					Log.d("recpient", cursorRecipients.getString(cursorRecipients.getColumnIndex("recipient_number")));
 					//i++;
 				}
 				messageId.remove(0);

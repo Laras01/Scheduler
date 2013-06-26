@@ -164,6 +164,13 @@ public class TimeListDatabaseHelper {
 		StringTokenizer st = new StringTokenizer(phoneNumbers, ";");
 		while (st.hasMoreElements()) {
 			String tempPhoneNumber = (String) st.nextElement();
+			
+			// country code for Indonesia
+			if (tempPhoneNumber.contains("+62"))
+			{
+				tempPhoneNumber.replace("+62", "0");
+			}
+			
 			Cursor cursor = databaseReadable.rawQuery("select * from " + TABLE_CONTACT_NUMBER + " where " + CONTACT_COLUMN_NUMBER + "='" + tempPhoneNumber + "'", null);
 			if (cursor.moveToNext() == false){
 				contentValues.put(CONTACT_COLUMN_NUMBER, tempPhoneNumber);

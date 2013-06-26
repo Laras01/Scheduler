@@ -54,16 +54,19 @@ OnItemClickListener {
 		setContentView(R.layout.main_list_schedule);
 		helper = new TimeListDatabaseHelper(this);
 		Cursor cursor = helper.getScheduleList();
+		
 		schedule = new ArrayList<Schedule>();
 		if (cursor.moveToFirst())
 		{
 //			int i = 0;
 			do{
-				cursor.getLong(1);
+				//cursor.getLong(1);
 //				Schedule item = new Schedule(images[0], cursor.getString(2), cursor.getString(3), cursor.getString(4));
 				
 				//Schedule item = new Schedule(images[0], scheduleId, datetime, recipient, message);
-				Schedule item = new Schedule(images[0], cursor.getString(0), cursor.getString(3), cursor.getString(7), cursor.getString(1));
+				Cursor cursorRecipient = helper.getRecipientsFromRecipient(cursor.getString(cursor.getColumnIndex("message_id")));
+				String recipients = helper.recipients(cursorRecipient);
+				Schedule item = new Schedule(images[0], cursor.getString(0), cursor.getString(3), recipients, cursor.getString(1));
 				schedule.add(item);
 //				i++;
 			}while(cursor.moveToNext());
